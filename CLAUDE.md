@@ -2,12 +2,21 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Status
+## What this is
 
-This repository is currently empty — it contains only `README.md` (title "artifact / Artifacts") and an MIT `LICENSE` (Copyright 2026 shdxiang). There is no source code, build system, dependency manifest, test suite, or CI configuration yet.
+A static single-page science explainer (Chinese): "为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？" — hydrostatic pressure paradox for lay readers.
 
-Remote: `git@github.com:shdxiang/artifact.git`. Default branch: `main`.
+- `public/hydrostatic-paradox.html` — the entire site: one self-contained HTML file with all CSS, JS, and SVG inline. No build step, no dependencies, no external fonts/CDN — keep it that way (hard requirement from the original brief).
+- `public/index.html` — meta-refresh redirect to the page above.
+- `wrangler.toml` — Cloudflare Worker static-assets config serving `public/`.
 
-## When code lands here
+## Commands
 
-There are no build, lint, or test commands to document yet. Once the first real code is committed, replace this section with the actual commands (build, lint, run a single test) and a description of the architecture. Do not invent commands or structure before then — read the code that exists and document only that.
+- Deploy: `npx wrangler deploy` (needs `npx wrangler login` once)
+- Preview locally: `npx wrangler dev` or just open `public/hydrostatic-paradox.html` in a browser
+
+## Conventions
+
+- All content edits happen inside the one HTML file; keep kg (mass) vs kgf (force) strictly separated in copy — the page's whole point is not confusing them.
+- Force-arrow colors are semantic and consistent across every figure: orange F原, purple F新, green gravity, teal normal force, blue pressure distribution. Don't reassign them.
+- Numbers on the page are labeled "概念示例" (conceptual examples); don't present them as measured values.
