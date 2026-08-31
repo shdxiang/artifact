@@ -31,17 +31,17 @@ main{max-width:760px;margin:0 auto;padding:64px 20px 64px}
 .cover .tagline{font-family:var(--round);font-size:1.12rem;margin:0;color:#5c5344}
 .cover .littlewood{font-size:.88rem;color:var(--muted);margin:10px 0 0}
 
-.plank{height:14px;border-radius:7px;margin:44px auto;max-width:520px;
-  background:repeating-linear-gradient(90deg,#d9a05e 0 46px,#cd9354 46px 92px);
-  border:2px solid var(--wood-deep)}
+.blocks{display:flex;justify-content:center;gap:14px;margin:46px 0}
+.blocks i{width:16px;height:16px;border-radius:5px;background:var(--wood);box-shadow:0 3px 0 var(--wood-deep)}
 
 .toc-head{display:flex;align-items:center;gap:14px;margin:0 0 20px;font-family:var(--round);font-size:1.35rem;font-weight:800;border-bottom:1px solid var(--line);padding-bottom:12px}
 a.item{
   display:block;background:#fff;border:2px solid var(--line);border-radius:16px;
   padding:20px 22px;text-decoration:none;color:var(--ink);
-  transition:border-color .15s,transform .15s;
+  box-shadow:0 3px 0 var(--line);
+  transition:border-color .15s,transform .15s,box-shadow .15s;
 }
-a.item:hover{border-color:var(--wood);transform:translateY(-2px)}
+a.item:hover{border-color:var(--wood);transform:translateY(-2px);box-shadow:0 5px 0 var(--wood)}
 .item .qnum{display:inline-flex;align-items:center;justify-content:center;width:2.1em;height:2.1em;background:var(--wood);border:2px solid var(--wood-deep);box-shadow:0 3px 0 var(--wood-deep);border-radius:9px;color:#fff;font-weight:800;font-family:var(--round)}
 .item h3{font-family:var(--round);font-size:1.15rem;line-height:1.6;margin:12px 0 8px;font-weight:800}
 .item .hook{color:#5c5344;font-size:.96rem;margin:0 0 14px}
@@ -59,13 +59,15 @@ footer a{color:var(--muted)}
 
 <main>
   <div class="cover">
-    <svg class="mascot" viewBox="0 0 160 190" role="img" aria-label="小木块，一个微笑的木头方块小人">
+    <svg class="mascot" viewBox="0 0 160 196" role="img" aria-label="小木块，一个微笑的木头方块小人">
       <line x1="58" y1="106" x2="28" y2="82" stroke="#c98f4f" stroke-width="11" stroke-linecap="round"/>
       <line x1="102" y1="106" x2="130" y2="126" stroke="#c98f4f" stroke-width="11" stroke-linecap="round"/>
-      <line x1="68" y1="145" x2="68" y2="172" stroke="#b3824a" stroke-width="11" stroke-linecap="round"/>
-      <line x1="92" y1="145" x2="92" y2="172" stroke="#b3824a" stroke-width="11" stroke-linecap="round"/>
-      <rect x="55" y="92" width="50" height="55" rx="12" fill="#c98f4f" stroke="#a86f32" stroke-width="3"/>
-      <rect x="36" y="10" width="88" height="80" rx="16" fill="#d9a05e" stroke="#a86f32" stroke-width="3"/>
+      <line x1="68" y1="145" x2="68" y2="176" stroke="#b3824a" stroke-width="11" stroke-linecap="round"/>
+      <line x1="92" y1="145" x2="92" y2="176" stroke="#b3824a" stroke-width="11" stroke-linecap="round"/>
+      <rect x="55" y="97" width="50" height="55" rx="12" fill="#a86f32"/>
+      <rect x="55" y="92" width="50" height="55" rx="12" fill="#c98f4f"/>
+      <rect x="36" y="15" width="88" height="80" rx="16" fill="#a86f32"/>
+      <rect x="36" y="10" width="88" height="80" rx="16" fill="#d9a05e"/>
       <circle class="eye" cx="66" cy="50" r="4.5" fill="#3a3128"/>
       <circle class="eye" cx="92" cy="50" r="4.5" fill="#3a3128"/>
       <path d="M70,64 q9,8 18,0" fill="none" stroke="#3a3128" stroke-width="3" stroke-linecap="round"/>
@@ -75,7 +77,7 @@ footer a{color:var(--muted)}
     <p class="littlewood">名字来自数学家 J. E. Littlewood。Littlewood 直译过来，大概就是「小木块」。</p>
   </div>
 
-  <div class="plank" aria-hidden="true"></div>
+  <div class="blocks" aria-hidden="true"><i></i><i></i><i></i></div>
 
   <div class="toc-head">图解目录</div>
 

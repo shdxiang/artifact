@@ -77,11 +77,12 @@ ul.tight li{margin:6px 0}
 
 /* 交互演示 */
 .demo .mbtns{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-.mbtn{flex:1 1 110px;padding:11px 16px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:1rem;cursor:pointer;font-family:var(--round);font-weight:700;color:var(--muted);transition:background .15s,color .15s,border-color .15s}
-.mbtn:hover{border-color:var(--wood)}
-.mbtn.active[data-mat="water"]{background:var(--water);border-color:var(--water);color:#fff}
-.mbtn.active[data-mat="solid"]{background:#5b6472;border-color:#5b6472;color:#fff}
-.mbtn.active[data-mat="asphalt"]{background:var(--asphalt);border-color:var(--asphalt);color:#fff}
+.mbtn{flex:1 1 110px;padding:11px 16px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:1rem;cursor:pointer;font-family:var(--round);font-weight:700;color:var(--muted);box-shadow:0 3px 0 var(--line);transition:background .15s,color .15s,border-color .15s,box-shadow .15s}
+.mbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.mbtn:hover{border-color:var(--wood);box-shadow:0 3px 0 var(--wood)}
+.mbtn.active[data-mat="water"]{background:var(--water);border-color:var(--water);color:#fff;box-shadow:0 3px 0 #24619e}
+.mbtn.active[data-mat="solid"]{background:#5b6472;border-color:#5b6472;color:#fff;box-shadow:0 3px 0 #454c55}
+.mbtn.active[data-mat="asphalt"]{background:var(--asphalt);border-color:var(--asphalt);color:#fff;box-shadow:0 3px 0 #33200f}
 .demo input[type=range]{width:100%;accent-color:var(--wood-deep);margin:6px 0 2px}
 .readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
 .ro{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
@@ -177,8 +178,9 @@ footer{max-width:880px;margin:48px auto 0;padding:0 16px 48px;color:var(--muted)
       <text x="320" y="122" text-anchor="middle" font-size="14" fill="#3a3128">中间：约 1 kg 水，受到的净力仅 ≈1 kgf</text>
     </svg>
     <div class="mrow">
-      <svg class="mascot" viewBox="0 0 100 100" role="img" aria-label="小木块">
-        <rect x="6" y="10" width="88" height="80" rx="16" fill="#d9a05e" stroke="#a86f32" stroke-width="3"/>
+      <svg class="mascot" viewBox="0 0 100 104" role="img" aria-label="小木块">
+        <rect x="6" y="16" width="88" height="80" rx="16" fill="#a86f32"/>
+        <rect x="6" y="10" width="88" height="80" rx="16" fill="#d9a05e"/>
         <circle class="eye" cx="36" cy="50" r="4.5" fill="#3a3128"/>
         <circle class="eye" cx="62" cy="50" r="4.5" fill="#3a3128"/>
         <path d="M40,64 q9,8 18,0" fill="none" stroke="#3a3128" stroke-width="3" stroke-linecap="round"/>
