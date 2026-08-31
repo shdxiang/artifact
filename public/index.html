@@ -3,116 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Littlewood · 用常识解释奇怪的科学问题</title>
-<meta name="description" content="收集反直觉的科学怪问题，用受力图、示意图和一点点算术讲清楚。">
+<title>Littlewood 怪题集 · 用常识解释奇怪的科学问题</title>
+<meta name="description" content="收集反直觉的科学怪题，用受力图、示意图和一点点算术讲清楚。">
 <style>
 :root{
-  --bg:#f2f7fb; --card:#ffffff; --ink:#14344d; --muted:#5d7285; --line:#d9e6f0;
-  --accent:#1c7ed6; --accent-deep:#155f9e;
-  --f-old:#e8590c; --f-new:#6741d9;
-  --serif:Georgia,"Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Songti SC",SimSun,serif;
+  --paper:#f7f8f4; --grid:rgba(70,110,150,.10); --ink:#26303c; --muted:#67717d;
+  --line:#ccd4dc; --red:#c9342a; --blue-ink:#2456a6;
+  --kai:"Kaiti SC","STKaiti","KaiTi","FangSong",serif;
 }
 *{box-sizing:border-box}
-::selection{background:#bcdcf5}
+::selection{background:#f6d9d6}
 body{
-  margin:0;background:var(--bg);color:var(--ink);
+  margin:0;color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
   line-height:1.85;font-size:16px;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
 }
-a{color:var(--accent-deep)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+a{color:var(--blue-ink)}
+:focus-visible{outline:3px solid var(--blue-ink);outline-offset:2px}
+main{max-width:760px;margin:0 auto;padding:56px 20px 64px}
 
-header.hero{
-  position:relative;overflow:hidden;text-align:center;
-  background:linear-gradient(180deg,#ffffff 0%,#e6f1fa 60%,#cfe5f4 100%);
-  padding:84px 20px 0;
-}
-.hero .qmark{
-  position:absolute;top:-40px;right:4%;font-family:var(--serif);font-weight:700;
-  font-size:clamp(220px,32vw,420px);line-height:1;color:#ddecf8;user-select:none;pointer-events:none;
-  transform:rotate(12deg);
-}
-.hero>*{position:relative}
-.eyebrow{font-size:.8rem;letter-spacing:.5em;color:var(--accent-deep);margin-bottom:22px}
-.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,4.6vw,2.7rem);line-height:1.5;max-width:760px;margin:0 auto 20px}
-.hero p.sub{max-width:620px;margin:0 auto;color:#33566f;font-size:1.02rem}
-.hero p.law{
-  max-width:560px;margin:26px auto 0;font-family:var(--serif);color:var(--accent-deep);
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 8px;font-size:.98rem;
-}
-.hero .wave{display:block;width:100%;height:64px;margin-top:44px}
+/* ---- 封面 ---- */
+.cover{position:relative;background:#fff;border:2px solid var(--ink);padding:60px 28px 44px;text-align:center}
+.cover::before{content:"";position:absolute;inset:7px;border:1px solid var(--ink);pointer-events:none}
+.cover .series{letter-spacing:.5em;font-size:.85rem;color:var(--muted);text-indent:.5em}
+.cover h1{font-weight:900;font-size:clamp(2.6rem,9vw,4.2rem);letter-spacing:.28em;text-indent:.28em;margin:18px 0 10px;line-height:1.2}
+.cover .tagline{font-family:var(--kai);font-size:1.15rem;margin:0 0 26px}
+.cover .rule{width:120px;height:2px;background:var(--red);margin:0 auto 26px}
+.cover .law{font-family:var(--kai);color:var(--blue-ink);max-width:440px;margin:0 auto 34px;font-size:.98rem}
+.cover .fields{font-family:var(--kai);font-size:1.02rem;display:flex;justify-content:center;gap:2.2em;flex-wrap:wrap}
+.cover .fields i{display:inline-block;width:5.5em;border-bottom:1px solid var(--ink);height:1em;vertical-align:baseline}
 
-main{max-width:880px;margin:0 auto;padding:0 16px 72px}
-.seclabel{
-  display:flex;align-items:baseline;gap:14px;margin:56px 0 20px;
-  font-family:var(--serif);font-size:1.35rem;border-bottom:1px solid var(--line);padding-bottom:12px;
+/* ---- 目录 ---- */
+.toc-head{display:flex;align-items:center;gap:14px;margin:56px 0 20px;font-size:1.35rem;font-weight:800;border-bottom:1px solid var(--line);padding-bottom:12px}
+.toc-head .mark{display:inline-flex;align-items:center;justify-content:center;width:2em;height:2em;border:2px solid var(--red);border-radius:50%;color:var(--red);font-family:var(--kai);font-size:1rem}
+a.item{
+  display:block;background:#fff;border:1px solid var(--line);border-radius:8px;
+  padding:20px 22px;text-decoration:none;color:var(--ink);
+  transition:border-color .15s,transform .15s;
 }
-.seclabel .mark{font-size:2.2rem;line-height:1;color:#a8cbe7;font-weight:700}
+a.item:hover{border-color:var(--red);transform:translateY(-2px)}
+.item .qnum{font-family:var(--kai);color:var(--red);font-weight:700}
+.item h3{font-size:1.15rem;line-height:1.6;margin:6px 0 8px;font-weight:800}
+.item .hook{font-family:var(--kai);color:#48535f;font-size:.98rem;margin:0 0 14px}
+.item svg{display:block;width:100%;max-width:360px;height:auto;margin:0 0 12px}
+.item .go{font-weight:700;color:var(--red)}
+p.more{font-family:var(--kai);color:var(--muted);text-align:center;margin-top:32px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
-a.qcard{
-  display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:22px 24px;text-decoration:none;color:var(--ink);
-  box-shadow:0 2px 10px rgba(20,52,77,.05);
-  transition:transform .15s,box-shadow .15s,border-color .15s;
-}
-a.qcard:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(20,52,77,.10);border-color:#b9d3e6}
-.qcard svg{display:block;width:100%;max-width:340px;height:auto;margin:0 auto 14px}
-.qcard h3{font-family:var(--serif);font-size:1.18rem;line-height:1.6;margin:0 0 10px}
-.qcard p.hook{color:var(--muted);font-size:.95rem;margin:0 0 14px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.tag{font-size:.78rem;color:var(--accent-deep);background:#e8f2fd;border-radius:999px;padding:2px 12px}
-.cta{font-weight:700;color:var(--accent-deep)}
-p.more{color:var(--muted);text-align:center;margin-top:36px;font-size:.95rem}
-
-footer{max-width:880px;margin:24px auto 0;padding:0 16px 48px;color:var(--muted);font-size:.85rem;text-align:center}
+footer{max-width:760px;margin:0 auto;padding:0 20px 48px;color:var(--muted);font-size:.9rem;text-align:center;font-family:var(--kai)}
 footer a{color:var(--muted)}
-@media (max-width:560px){body{font-size:15px}}
+@media (max-width:560px){body{font-size:15px}.cover{padding:44px 16px 34px}}
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <span class="qmark" aria-hidden="true">？</span>
-  <div class="eyebrow">LITTLEWOOD</div>
-  <h1>奇怪的科学问题，<br>用常识讲明白</h1>
-  <p class="sub">这里收集那些「听上去不可能、算下来却是真的」的怪问题，用受力图、示意图和一点点算术拆开——不堆术语，中学知识就够。</p>
-  <p class="law">「一个普通人，平均每个月都会遇到一件『百万分之一』的怪事。」<br>——利特尔伍德定律</p>
-  <svg class="wave" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" fill="#f2f7fb"/>
-  </svg>
-</header>
-
 <main>
-  <div class="seclabel"><span class="mark">？</span>问题清单</div>
-
-  <div class="grid">
-    <a class="qcard" href="./hydrostatic-paradox.html">
-      <svg viewBox="0 0 640 130" role="img" aria-label="两个巨大反向力夹着一层薄水">
-        <defs>
-          <marker id="aOld" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
-          <marker id="aNew" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6741d9"/></marker>
-        </defs>
-        <line x1="30" y1="58" x2="288" y2="58" stroke="#e8590c" stroke-width="12" stroke-linecap="round" marker-end="url(#aOld)"/>
-        <line x1="610" y1="58" x2="352" y2="58" stroke="#6741d9" stroke-width="12" stroke-linecap="round" marker-end="url(#aNew)"/>
-        <rect x="310" y="22" width="20" height="72" rx="4" fill="#7cb7e8"/>
-        <text x="160" y="30" text-anchor="middle" font-size="15" fill="#e8590c">≈1000 吨力</text>
-        <text x="480" y="30" text-anchor="middle" font-size="15" fill="#6741d9">≈1000 吨力</text>
-        <text x="320" y="122" text-anchor="middle" font-size="14" fill="#14344d">中间：约 1 kg 水</text>
-      </svg>
-      <h3>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h3>
-      <p class="hook">一瓶矿泉水的量，夹在两块挡板之间——挡板却顶着一千吨的力，而且哪儿都没算错。质量和力，是两回事。</p>
-      <div class="tags"><span class="tag">流体静力学</span><span class="tag">交互演示</span><span class="tag">图解</span></div>
-      <span class="cta">去看图解 →</span>
-    </a>
+  <div class="cover">
+    <div class="series">LITTLEWOOD</div>
+    <h1>怪题集</h1>
+    <p class="tagline">用常识解释奇怪的科学问题</p>
+    <div class="rule"></div>
+    <p class="law">「一个普通人，平均每个月都会遇到一件『百万分之一』的怪事。」<br>——利特尔伍德定律</p>
+    <div class="fields"><span>姓名 <i></i></span><span>班级 <i></i></span></div>
   </div>
 
-  <p class="more">更多怪问题正在路上。</p>
+  <div class="toc-head"><span class="mark">目</span>目录</div>
+
+  <a class="item" href="./hydrostatic-paradox.html">
+    <span class="qnum">题 1</span>
+    <h3>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h3>
+    <p class="hook">一瓶矿泉水的量，夹在两块挡板之间——挡板却顶着一千吨的力，哪儿都没算错。质量和力，是两回事。</p>
+    <svg viewBox="0 0 640 130" role="img" aria-label="两个巨大反向力夹着一层薄水">
+      <defs>
+        <marker id="aOld" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+        <marker id="aNew" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6741d9"/></marker>
+      </defs>
+      <line x1="30" y1="58" x2="288" y2="58" stroke="#e8590c" stroke-width="12" stroke-linecap="round" marker-end="url(#aOld)"/>
+      <line x1="610" y1="58" x2="352" y2="58" stroke="#6741d9" stroke-width="12" stroke-linecap="round" marker-end="url(#aNew)"/>
+      <rect x="310" y="22" width="20" height="72" rx="4" fill="#7cb7e8"/>
+      <text x="160" y="30" text-anchor="middle" font-size="15" fill="#e8590c">≈1000 吨力</text>
+      <text x="480" y="30" text-anchor="middle" font-size="15" fill="#6741d9">≈1000 吨力</text>
+      <text x="320" y="122" text-anchor="middle" font-size="14" fill="#26303c">中间：约 1 kg 水</text>
+    </svg>
+    <span class="go">去做题 →</span>
+  </a>
+
+  <p class="more">更多怪题正在路上。</p>
 </main>
 
 <footer>
-  Littlewood —— 用简单常识解释奇怪的科学问题 · <a href="https://github.com/shdxiang/artifact">源码（GitHub，MIT）</a>
+  Littlewood 怪题集 · <a href="https://github.com/shdxiang/artifact">源码（GitHub，MIT）</a>
 </footer>
 
 </body>
