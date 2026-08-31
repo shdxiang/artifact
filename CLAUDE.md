@@ -20,3 +20,11 @@ A static single-page science explainer (Chinese): "为什么 1 千克的薄层�
 - All content edits happen inside the one HTML file; keep kg (mass) vs kgf (force) strictly separated in copy — the page's whole point is not confusing them.
 - Force-arrow colors are semantic and consistent across every figure: orange F原, purple F新, green gravity, teal normal force, blue pressure distribution. Don't reassign them.
 - Numbers on the page are labeled "概念示例" (conceptual examples); don't present them as measured values.
+
+## Editorial principles (site review, 2026-09)
+
+- Question site, not knowledge site: every article opens with an "impossible" question and answers it; knowledge is the tool, never the topic. Titles are questions, not textbook entries.
+- Two-layer articles: 快速理解 first (core logic + the interactive demo), then a `.layer-break` divider ("已经理解了？…") before the deeper half.
+- Figures carry the story: figures + captions alone should convey ~70% of an article; one figure answers exactly one question; formulas support figures, not prose.
+- Interactives stay deliberately simple: 1–2 variables, purpose is understanding, not simulation.
+- Keep the 图解 NN series numbering and English-slug URLs (e.g. /hydrostatic-paradox.html).
