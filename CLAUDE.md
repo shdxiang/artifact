@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A static single-page science explainer (Chinese): "为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？" — hydrostatic pressure paradox for lay readers.
 
 - `public/hydrostatic-paradox.html` — the entire site: one self-contained HTML file with all CSS, JS, and SVG inline. No build step, no dependencies, no external fonts/CDN — keep it that way (hard requirement from the original brief).
-- `public/index.html` — meta-refresh redirect to the page above.
+- `public/index.html` — site landing page ("Littlewood" — weird science questions explained with common sense), links to the question pages.
 - `wrangler.toml` — Cloudflare Worker static-assets config serving `public/`.
 
 ## Commands
