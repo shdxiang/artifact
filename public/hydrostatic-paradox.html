@@ -74,7 +74,8 @@ p{margin:10px 0}
 .tldr::before{content:"太长不看";position:absolute;top:-13px;left:16px;background:#2b6b57;color:#fff;font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 12px;letter-spacing:.1em}
 .warn{background:#fdf3e4;border-left:5px solid #b3611e;border-radius:10px;padding:13px 17px;margin:20px 0}
 .quote{background:#fff;border:2px solid var(--wood);border-radius:14px;padding:14px 18px;margin:20px 0;font-weight:600}
-.formula{background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:16px 0;text-align:center;font-size:1.2rem;font-family:var(--math)}
+.formula{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:16px 0;text-align:center;font-size:1.28rem;line-height:1.8;font-family:var(--math)}
+.formula .fnote{display:inline-block;margin-left:1em;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:.82rem;color:var(--muted);vertical-align:.1em}
 .formula i{font-style:italic}
 .formula sub{font-size:.7em}
 
@@ -338,7 +339,7 @@ footer a{color:var(--chalk-muted)}
 <section>
   <h2><span class="num">3</span>最初：只有一块挡板</h2>
   <p>斜面上装着一大楔子水，下坡端被原挡板拦住。斜面是光滑的，帮不上沿斜面方向的忙；侧壁也不沿斜面出力。所以整堆水「想沿斜面往下溜」的那部分重力，<b>只能全部由原挡板顶住</b>：</p>
-  <div class="formula"><i>F</i><sub>原</sub> = <i>m</i> <i>g</i> sin<i>θ</i>&nbsp;&nbsp;（<i>m</i> 是<b>全部</b>液体的质量）</div>
+  <div class="formula"><i>F</i><sub>原</sub> = <i>m</i> <i>g</i> sin<i>θ</i><span class="fnote">m 为全部液体的质量</span></div>
   <p><b>概念示例：</b>设水足够多，这一项恰好等于 <b>1000 吨力（1 000 000 kgf）</b>。记住这个数，后面一直用它。</p>
 
   <figure>
@@ -386,7 +387,7 @@ footer a{color:var(--chalk-muted)}
   <p>这里 <i>h</i> 是这一点到自由液面的<b>竖直深度</b>——竖直往上量到水面有多深。它<b>不是</b>沿斜面量的距离，更<b>不是</b>水层有多厚。</p>
   <div class="quote">生活版：在游泳池潜水，耳朵有多疼只看你<b>潜了多深</b>，不看池子有多长多大。挡板就是那只耳朵。</div>
   <p>原挡板只「感觉」得到紧贴着它的那层水。插板之后，这层水每一点的竖直深度没变、密度没变、挡板的浸水面积也没变，所以把压强在整个板面上加起来的合力：</p>
-  <div class="formula"><i>F</i><sub>原</sub> = ∫ <i>ρ</i> <i>g</i> <i>h</i> d<i>A</i>&nbsp;&nbsp;——一丝不变</div>
+  <div class="formula"><i>F</i><sub>原</sub> = ∫ <i>ρ</i> <i>g</i> <i>h</i> d<i>A</i><span class="fnote">一丝不变</span></div>
 
   <figure>
     <div class="figbox">
@@ -661,7 +662,7 @@ footer a{color:var(--chalk-muted)}
     </div>
   </figure>
 
-  <div class="formula"><i>τ</i> = <i>F</i><sub>∥</sub> / <i>A</i>&nbsp;&nbsp;（沿表面方向的力 ÷ 受力面积）</div>
+  <div class="formula"><i>τ</i> = <i>F</i><sub>∥</sub> / <i>A</i><span class="fnote">沿表面方向的力 ÷ 受力面积</span></div>
   <ul class="tight">
     <li><b>固体</b>：静止时可以长期维持剪切应力——就像一副粘住的牌，自己保持形状，把沿斜面的重力「攥」在自己内部，只把 mg sinθ 交给下坡挡板。</li>
     <li><b>普通静止液体</b>：不能维持剪切应力。对牛顿流体，<i>τ</i> = <i>μ</i>(d<i>u</i>/d<i>y</i>)；完全静止时流速梯度 d<i>u</i>/d<i>y</i> = 0，所以 <i>τ</i> = 0。</li>
@@ -674,7 +675,7 @@ footer a{color:var(--chalk-muted)}
 <section>
   <h2><span class="num">8</span>沥青算液体还是固体？——看条件</h2>
   <p>液体与固体之间，并不是所有情况下都有绝对清晰的界限。沥青是典型的<b>黏弹性 / 黏塑性材料</b>，它的表现取决于：温度、观察时间、受力大小、屈服应力，以及灌入和冷却的历史。两个简单的判断工具：</p>
-  <div class="formula">De = 松弛时间 / 观察时间</div>
+  <div class="formula"><i>De</i> = 松弛时间 / 观察时间</div>
   <ul class="tight">
     <li>De ≫ 1：在你观察的这段时间里，它来不及流动——<b>像固体</b>；</li>
     <li>De ≪ 1：它有足够时间松弛和流动——<b>像液体</b>；</li>
