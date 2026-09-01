@@ -79,7 +79,7 @@ p{margin:10px 0}
 .formula sub{font-size:.7em}
 
 figure{margin:24px 0}
-.figbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
+.figbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;overflow-x:auto}
 .figbox::before,.figbox::after{content:"";position:absolute;top:-9px;width:64px;height:20px;background:rgba(250,244,222,.5);box-shadow:0 1px 3px rgba(0,0,0,.18);pointer-events:none}
 .figbox::before{left:16px;transform:rotate(-5deg)}
 .figbox::after{right:16px;transform:rotate(4deg)}
@@ -155,6 +155,10 @@ footer a{color:var(--chalk-muted)}
 .layer-break span{font-weight:700;color:var(--yellow)}
 @media (max-width:560px){
   body{font-size:15px}
+  .card,.figbox{padding:14px 12px}
+  .figbox svg.wide{min-width:560px}
+  .speclabels{font-size:.72rem}
+  .legend{gap:8px 12px}
   .formula{font-size:1.05rem}
   h2{font-size:1.22rem}
   .mascot{width:64px}
@@ -339,7 +343,7 @@ footer a{color:var(--chalk-muted)}
 
   <figure>
     <div class="figbox">
-      <svg viewBox="0 0 640 420" role="img" aria-label="斜面上的水与原挡板受力图">
+      <svg class="wide" viewBox="0 0 640 420" role="img" aria-label="斜面上的水与原挡板受力图">
         <!-- 地面基准与斜面 -->
         <line x1="40" y1="360" x2="300" y2="360" stroke="#98a2b3" stroke-width="2" stroke-dasharray="7 6"/>
         <line x1="40" y1="360" x2="620" y2="115" stroke="#495057" stroke-width="4" stroke-linecap="round"/>
@@ -463,7 +467,7 @@ footer a{color:var(--chalk-muted)}
 
   <figure>
     <div class="figbox">
-      <svg viewBox="0 0 640 330" role="img" aria-label="1 毫米薄层水的受力放大图">
+      <svg class="wide" viewBox="0 0 640 330" role="img" aria-label="1 毫米薄层水的受力放大图">
         <text x="320" y="26" font-size="14" fill="#5b6472" text-anchor="middle">把两板之间放大来看（上坡方向朝右 →）</text>
         <!-- 板与薄层 -->
         <rect x="240" y="60" width="20" height="200" fill="#343a40" rx="3"/>
@@ -523,7 +527,7 @@ footer a{color:var(--chalk-muted)}
     </div>
 
     <div class="figbox" style="padding:8px">
-      <svg viewBox="0 0 640 320" role="img" aria-label="交互受力示意图">
+      <svg class="wide" viewBox="0 0 640 320" role="img" aria-label="交互受力示意图">
         <text x="320" y="24" font-size="13" fill="#5b6472" text-anchor="middle">沿斜面方向放大示意（上坡方向朝右 →）</text>
         <rect x="240" y="60" width="20" height="200" fill="#343a40" rx="3"/>
         <rect id="dLayer" x="260" y="60" width="14" height="200" fill="#7cb7e8"/>
