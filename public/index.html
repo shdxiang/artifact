@@ -8,74 +8,100 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=2">
 <style>
 :root{
-  --bg:#0b0f14; --panel:#131a22; --code:#0f151d; --line:#22303c;
-  --fg:#e6edf3; --mut:#93a4b3;
-  --o:#ff9f43; --g:#3ddc97; --b:#4aa8ff;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --board:#2b4a3e; --chalk:#f2efe4; --chalk-muted:#c1ccbd; --yellow:#e8c86a;
+  --blue:#8ec9f0;
+  --chalk-line:rgba(242,239,228,.5);
 }
 *{box-sizing:border-box}
-::selection{background:rgba(74,168,255,.35)}
+::selection{background:rgba(232,200,106,.35)}
 body{
-  margin:0;color:var(--fg);
-  background:radial-gradient(60% 46% at 50% 0%,#1a2430 0%,rgba(26,36,48,0) 100%),var(--bg);
-  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;
-  line-height:1.75;font-size:16px;min-height:100vh;
+  margin:0;color:var(--chalk);position:relative;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.07 0 0 0 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 60% 40% at 20% 10%,rgba(255,255,255,.05),transparent),
+    radial-gradient(ellipse 50% 35% at 85% 80%,rgba(255,255,255,.04),transparent),
+    var(--board);
+  box-shadow:inset 0 0 60px rgba(0,0,0,.22);
+  min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  line-height:1.85;font-size:16px;
 }
-a{color:var(--b)}
-:focus-visible{outline:3px solid var(--b);outline-offset:2px;border-radius:6px}
-main{max-width:760px;margin:0 auto;padding:clamp(52px,10vw,84px) 20px 64px}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px;border-radius:6px}
+main{max-width:760px;margin:0 auto;padding:64px 20px 64px}
 
 .cover{text-align:center}
-.cover .mascot{width:170px;height:auto;display:block;margin:0 auto}
+.cover .mascot{width:170px;height:auto;display:block;margin:0 auto;color:var(--chalk)}
 .cover .mascot .eye{transform-origin:center;animation:blink 5.5s infinite}
 @keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
-.cover h1{font-weight:800;font-size:clamp(2.4rem,8vw,3.4rem);letter-spacing:.1em;margin:18px 0 8px}
-.cover .tagline{font-size:1.12rem;margin:0;color:var(--mut)}
-.cover .littlewood{font-size:.88rem;color:var(--mut);margin:10px 0 0;opacity:.85}
+.cover h1{font-weight:800;font-size:clamp(2.4rem,8vw,3.6rem);letter-spacing:.12em;margin:18px 0 8px;color:var(--yellow)}
+.cover .tagline{font-size:1.12rem;margin:0;color:var(--chalk)}
+.cover .littlewood{font-size:.88rem;color:var(--chalk-muted);margin:10px 0 0}
 
-.blocks{display:flex;justify-content:center;gap:14px;margin:46px 0}
-.blocks i{width:14px;height:14px;border-radius:4px;background:var(--o)}
-.blocks i:nth-child(2){background:var(--g)}
-.blocks i:nth-child(3){background:var(--b)}
+.cover .swash{display:block;width:200px;height:auto;margin:2px auto 0}
+.blocks{display:flex;justify-content:center;align-items:flex-end;gap:18px;margin:46px auto;position:relative;width:260px;padding-bottom:12px}
+.blocks::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9px;border-radius:4px;background:linear-gradient(180deg,#b98045,#8a5a26);box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.blocks i{width:46px;height:10px;border-radius:3px;background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(0,0,0,.1)),#f2efe4;box-shadow:0 1px 2px rgba(0,0,0,.3);transform:rotate(-3deg)}
+.blocks i:nth-child(2){background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(0,0,0,.1)),var(--yellow);transform:rotate(2deg)}
+.blocks i:nth-child(3){width:34px;background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(0,0,0,.1)),#f5a3ad;transform:rotate(-1deg)}
 
-.toc-head{display:flex;align-items:center;gap:14px;margin:0 0 20px;font-size:1.3rem;font-weight:700;letter-spacing:-.3px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.doodle{position:absolute;color:rgba(242,239,228,.32);pointer-events:none;user-select:none}
+.d1{top:110px;right:6%;font-size:1.2rem;transform:rotate(7deg);font-style:italic}
+.d2{bottom:150px;left:5%;width:130px;transform:rotate(-4deg)}
+.d2 path,.d2 line{stroke:rgba(242,239,228,.32);fill:none;stroke-width:2.5;stroke-linecap:round}
+
+.toc-head{display:flex;align-items:center;gap:14px;margin:0 0 20px;font-size:1.35rem;font-weight:800;border-bottom:2px dashed var(--chalk-line);padding-bottom:12px}
 a.item{
-  display:block;background:var(--panel);border:1px solid var(--line);border-radius:18px;
-  padding:20px 22px;text-decoration:none;color:var(--fg);
-  transition:border-color .15s,transform .15s;
+  display:block;background:#fff;border:1px solid #e4dac8;border-radius:14px;
+  padding:20px 22px;text-decoration:none;color:#3a3128;
+  box-shadow:0 3px 10px rgba(0,0,0,.22);position:relative;
+  transition:transform .15s,box-shadow .15s;
 }
-a.item:hover{border-color:var(--o);transform:translateY(-2px)}
-.item .qnum{display:inline-flex;align-items:center;justify-content:center;min-width:2.3em;height:2.3em;padding:0 .5em;background:var(--o);border-radius:999px;color:#0b0f14;font:700 .82rem/1 var(--mono)}
-.item h3{font-size:1.15rem;line-height:1.6;margin:12px 0 8px;font-weight:700}
-.item .hook{color:var(--mut);font-size:.96rem;margin:0 0 14px}
-.item svg.thumb{display:block;width:100%;max-width:420px;height:auto;margin:0 0 12px;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:8px}
-.item .go{font-weight:700;color:var(--o)}
-p.more{color:var(--mut);text-align:center;margin-top:32px}
+a.item::before,a.item::after{content:"";position:absolute;top:-9px;width:64px;height:20px;background:rgba(250,244,222,.5);box-shadow:0 1px 3px rgba(0,0,0,.18);pointer-events:none}
+a.item::before{left:16px;transform:rotate(-5deg)}
+a.item::after{right:16px;transform:rotate(4deg)}
+a.item:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.28)}
+.item .qnum{display:inline-flex;align-items:center;justify-content:center;width:2.1em;height:2.1em;background:#a86f32;border-radius:8px;color:#fff;font-weight:800}
+.item h3{font-size:1.15rem;line-height:1.6;margin:12px 0 8px;font-weight:800}
+.item .hook{color:#7a6f60;font-size:.96rem;margin:0 0 14px}
+.item svg.thumb{display:block;width:100%;max-width:420px;height:auto;margin:0 0 12px}
+.item .go{font-weight:700;color:#2f6bb3}
+p.more{color:var(--chalk-muted);text-align:center;margin-top:32px}
 
-footer{max-width:760px;margin:0 auto;padding:28px 20px 48px;color:var(--mut);font-size:.9rem;text-align:center;border-top:1px solid var(--line)}
-footer a{color:var(--mut)}
-@media (max-width:560px){body{font-size:15px}.cover .mascot{width:130px}}
+footer{max-width:760px;margin:0 auto;padding:0 20px 48px;color:var(--chalk-muted);font-size:.9rem;text-align:center}
+footer a{color:var(--chalk-muted)}
+@media (max-width:560px){body{font-size:15px}.cover .mascot{width:130px}.doodle{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
 </style>
 </head>
 <body>
 
+<div class="doodle d1" aria-hidden="true">p = ρgh</div>
+<svg class="doodle d2" viewBox="0 0 130 76" aria-hidden="true">
+  <line x1="8" y1="66" x2="122" y2="18"/>
+  <line x1="8" y1="66" x2="70" y2="66" stroke-dasharray="6 5"/>
+  <path d="M40,66 A32,32 0 0 0 36,54"/>
+  <text x="48" y="60" font-size="13" fill="rgba(242,239,228,.32)" stroke="none" font-style="italic">θ</text>
+</svg>
+
 <main>
   <div class="cover">
-    <svg class="mascot" viewBox="0 0 160 196" role="img" aria-label="小木块，一个微笑的木头方块小人">
-      <line x1="58" y1="106" x2="28" y2="82" stroke="#c98f4f" stroke-width="11" stroke-linecap="round"/>
-      <line x1="102" y1="106" x2="130" y2="126" stroke="#c98f4f" stroke-width="11" stroke-linecap="round"/>
-      <line x1="68" y1="145" x2="68" y2="176" stroke="#b3824a" stroke-width="11" stroke-linecap="round"/>
-      <line x1="92" y1="145" x2="92" y2="176" stroke="#b3824a" stroke-width="11" stroke-linecap="round"/>
-      <rect x="55" y="97" width="50" height="55" rx="12" fill="#a86f32"/>
-      <rect x="55" y="92" width="50" height="55" rx="12" fill="#c98f4f"/>
-      <rect x="36" y="15" width="88" height="80" rx="16" fill="#a86f32"/>
-      <rect x="36" y="10" width="88" height="80" rx="16" fill="#d9a05e"/>
-      <circle class="eye" cx="66" cy="50" r="4.5" fill="#1b1410"/>
-      <circle class="eye" cx="92" cy="50" r="4.5" fill="#1b1410"/>
-      <path d="M70,64 q9,8 18,0" fill="none" stroke="#1b1410" stroke-width="3" stroke-linecap="round"/>
+    <svg class="mascot" viewBox="0 0 160 196" role="img" aria-label="小木块，一个拿着粉笔的方块小人">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <line x1="58" y1="106" x2="30" y2="84" stroke-width="9"/>
+        <line x1="102" y1="106" x2="130" y2="126" stroke-width="9"/>
+        <line x1="68" y1="147" x2="68" y2="176" stroke-width="9"/>
+        <line x1="92" y1="147" x2="92" y2="176" stroke-width="9"/>
+        <rect x="55" y="92" width="50" height="55" rx="12"/>
+        <rect x="36" y="10" width="88" height="80" rx="16"/>
+        <path d="M70,64 q9,8 18,0"/>
+      </g>
+      <rect x="14" y="66" width="26" height="9" rx="3" fill="#e8c86a" transform="rotate(38 27 70)"/>
+      <circle class="eye" cx="66" cy="50" r="4.5" fill="currentColor"/>
+      <circle class="eye" cx="92" cy="50" r="4.5" fill="currentColor"/>
     </svg>
     <h1>小木块</h1>
+    <svg class="swash" viewBox="0 0 220 14" aria-hidden="true"><path d="M4,9 Q60,3 110,8 T216,6" fill="none" stroke="#e8c86a" stroke-width="4" stroke-linecap="round" opacity=".85"/></svg>
     <p class="tagline">用中学知识，把反直觉的科学问题画明白</p>
     <p class="littlewood">名字来自数学家 J. E. Littlewood。Littlewood 直译过来，大概就是「小木块」。</p>
   </div>
@@ -90,22 +116,22 @@ footer a{color:var(--mut)}
     <p class="hook">一瓶矿泉水的量，夹在两块挡板之间——挡板却顶着一千吨的力，哪儿都没算错。质量和力，是两回事。</p>
     <svg class="thumb" viewBox="0 60 320 156" role="img" aria-label="斜面上一大楔子水被新挡板隔开，两板之间只剩一条极薄的水缝，原挡板仍承受约 1000 吨力">
       <defs>
-        <marker id="aOld" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff9f43"/></marker>
-        <marker id="aNew" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b18cff"/></marker>
+        <marker id="aOld" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
+        <marker id="aNew" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6741d9"/></marker>
       </defs>
-      <line x1="15" y1="185" x2="312" y2="68" stroke="#93a4b3" stroke-width="3" stroke-linecap="round"/>
-      <path d="M60,166 L30,94 L41.5,94 L70,162 Z" fill="rgba(74,168,255,.5)" stroke="#4aa8ff" stroke-width="1"/>
-      <path d="M70,162 L41.5,94 L246,94 Z" fill="rgba(74,168,255,.26)" stroke="#4aa8ff" stroke-width="1"/>
-      <line x1="45" y1="94" x2="246" y2="94" stroke="#4aa8ff" stroke-width="2.5"/>
-      <line x1="60" y1="166" x2="29" y2="92" stroke="#dfe7ee" stroke-width="6" stroke-linecap="round"/>
-      <line x1="70" y1="162" x2="39" y2="88" stroke="#93a4b3" stroke-width="6" stroke-linecap="round"/>
-      <text x="2" y="84" font-size="12" fill="#dfe7ee">原挡板</text>
-      <text x="52" y="72" font-size="12" fill="#93a4b3">新挡板</text>
-      <line x1="150" y1="126" x2="76" y2="147" stroke="#b18cff" stroke-width="4.5" stroke-linecap="round" marker-end="url(#aNew)"/>
-      <text x="120" y="86" font-size="12" fill="#b18cff">F新 ≈1000 吨力</text>
-      <line x1="52" y1="150" x2="16" y2="164" stroke="#ff9f43" stroke-width="4.5" stroke-linecap="round" marker-end="url(#aOld)"/>
-      <text x="168" y="190" text-anchor="middle" font-size="13" fill="#ff9f43">F原 仍 ≈1000 吨力，纹丝不动</text>
-      <text x="168" y="209" text-anchor="middle" font-size="12" fill="#e6edf3">两板之间那条缝：只有约 1 kg 水</text>
+      <line x1="15" y1="185" x2="312" y2="68" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
+      <path d="M60,166 L30,94 L41.5,94 L70,162 Z" fill="rgba(47,127,209,.55)" stroke="#2f7fd1" stroke-width="1"/>
+      <path d="M70,162 L41.5,94 L246,94 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
+      <line x1="45" y1="94" x2="246" y2="94" stroke="#2f7fd1" stroke-width="2.5"/>
+      <line x1="60" y1="166" x2="29" y2="92" stroke="#343a40" stroke-width="6" stroke-linecap="round"/>
+      <line x1="70" y1="162" x2="39" y2="88" stroke="#5c636b" stroke-width="6" stroke-linecap="round"/>
+      <text x="2" y="84" font-size="12" fill="#343a40">原挡板</text>
+      <text x="52" y="72" font-size="12" fill="#5c636b">新挡板</text>
+      <line x1="150" y1="126" x2="76" y2="147" stroke="#6741d9" stroke-width="4.5" stroke-linecap="round" marker-end="url(#aNew)"/>
+      <text x="120" y="86" font-size="12" fill="#6741d9">F新 ≈1000 吨力</text>
+      <line x1="52" y1="150" x2="16" y2="164" stroke="#e8590c" stroke-width="4.5" stroke-linecap="round" marker-end="url(#aOld)"/>
+      <text x="168" y="190" text-anchor="middle" font-size="13" fill="#e8590c">F原 仍 ≈1000 吨力，纹丝不动</text>
+      <text x="168" y="209" text-anchor="middle" font-size="12" fill="#3a3128">两板之间那条缝：只有约 1 kg 水</text>
     </svg>
     <span class="go">看图解 →</span>
   </a>
