@@ -4,10 +4,10 @@
 
 - 首页：`public/index.html`（文章目录）
 - 文章：`public/hydrostatic-paradox.html`（《为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？》）
-- 部署（Cloudflare Worker 静态资源，域名 littlewood.io）：
+- 部署（Cloudflare Worker 静态资源，域名 littlewood.io）：push 到 `main` 自动部署，或手动：
 
 ```sh
 npx wrangler deploy
 ```
 
-需先 `npx wrangler login`。
+推送到 `main` 即自动部署。

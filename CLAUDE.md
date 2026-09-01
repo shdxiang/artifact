@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-- Deploy: `npx wrangler deploy` (needs `npx wrangler login` once)
+- Deploy: push to `main` — Cloudflare auto-deploys from the GitHub repo (`npx wrangler deploy` also works but needs auth)
 - Preview locally: `npx wrangler dev` or just open the HTML file in a browser
 
 ## Conventions
