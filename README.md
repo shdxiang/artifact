@@ -10,4 +10,3 @@
 npx wrangler deploy
 ```
 
-推送到 `main` 即自动部署。
