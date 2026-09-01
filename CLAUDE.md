@@ -19,8 +19,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Conventions
 
 - Keep kg (mass) vs kgf (force) strictly separated in copy — the hydrostatic article's whole point is not confusing them.
-- Force-arrow colors are semantic and consistent across every figure: orange F原, purple F新, green gravity, teal normal force, blue pressure distribution. Don't reassign them.
-- Chalkboard theme (2026-09): page ground is a green board (soft vignette, no frame); figures/cards are light "paper panels" pinned on it (soft shadow + tape corners on .figbox) and keep the original semantic colors. Anything drawn directly on the board is chalk-colored (text #f2efe4, yellow #e8c86a accents).
+- Force-arrow colors are semantic and consistent across every figure: orange F原 (--o #ff9f43), purple F新 (--p #b18cff), green gravity (--g #3ddc97), teal normal force (--t #39d0d8), blue pressure/water (--b #4aa8ff). Don't reassign them.
+- Night-tech theme (2026-09): dark ground #0b0f14, panels #131a22 with 1px #22303c borders and 16-18px radius, text #e6edf3/#93a4b3, orange as the primary accent (section-number pills, key/warn boxes), mono for pills and readouts. Figures are drawn for the dark panels directly (plates #dfe7ee/#93a4b3, slope #93a4b3).
 - Numbers on the page are labeled "概念示例" (conceptual examples); don't present them as measured values.
 
 ## Editorial principles (site review, 2026-09)
