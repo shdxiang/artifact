@@ -41,7 +41,7 @@ a{color:var(--blue)}
 main{max-width:880px;margin:0 auto;padding:0 16px 72px}
 
 /* 贴在黑板上的「白纸面板」：内部回到纸面配色，图内语义色不动 */
-.card,.figbox,.warn,.quote,.key,.say,.formula,.tblwrap,.matnote,.mis{
+.card,.figbox,.warn,.quote,.key,.tldr,.say,.formula,.tblwrap,.matnote,.mis{
   --muted:#7a6f60; --line:#e4dac8;
   color:var(--ink);
   box-shadow:0 3px 10px rgba(0,0,0,.22);
@@ -69,8 +69,9 @@ h3{font-size:1.08rem;font-weight:700;margin:22px 0 8px}
 p{margin:10px 0}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
-.key{position:relative;background:#fff;border:2px solid var(--wood);border-radius:14px;padding:26px 18px 14px;margin:26px 0;font-weight:600}
+.key,.tldr{position:relative;background:#fff;border:2px solid var(--wood);border-radius:14px;padding:26px 18px 14px;margin:26px 0;font-weight:600}
 .key::before{content:"划重点";position:absolute;top:-13px;left:16px;background:var(--wood-deep);color:#fff;font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 12px;letter-spacing:.1em}
+.tldr::before{content:"太长不看";position:absolute;top:-13px;left:16px;background:#2b6b57;color:#fff;font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 12px;letter-spacing:.1em}
 .warn{background:#fdf3e4;border-left:5px solid #b3611e;border-radius:10px;padding:13px 17px;margin:20px 0}
 .quote{background:#fff;border:2px solid var(--wood);border-radius:14px;padding:14px 18px;margin:20px 0;font-weight:600}
 .formula{background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:16px 0;text-align:center;font-size:1.2rem;font-family:var(--math)}
@@ -201,10 +202,16 @@ footer a{color:var(--chalk-muted)}
 
 <main>
 
+<div class="tldr">
+  <p style="margin:6px 0">① 挡板只「感觉」得到紧贴着它的那层水，别的它不知道。</p>
+  <p style="margin:6px 0">② 水压只看<b>离水面多深</b>，不看水层有多厚。</p>
+  <p style="margin:6px 0">③ 插板后每一点的深度都没变，所以力一点没变。那 1 kg 水只是被两个巨大的反向力夹着，它自己受到的净力还是很小。</p>
+</div>
+
 <!-- ========== 开篇对比 ========== -->
 <section>
   <h2><span class="num">1</span>先看两组对比图：液体 vs 固体</h2>
-  <p>先不讲公式。同样形状、同样质量的一楔子<b style="color:#9ecbe8">水</b>和一块<b style="color:#cfd6dd">理想刚性固体</b>，放在同一个光滑斜面上，被同一块挡板拦住。对比插入新挡板<b>前</b>与<b>后</b>，原挡板受力怎么变——反直觉的地方一眼就露出来。</p>
+  <p>先不讲公式，看图。同样质量的一楔子<b style="color:#9ecbe8">水</b>和一块<b style="color:#cfd6dd">理想刚性固体</b>，同一个光滑斜面，同一块挡板。问题只有一个：插入新挡板<b>前后</b>，原挡板受的力怎么变？</p>
 
   <figure>
     <div class="figbox">
@@ -245,7 +252,7 @@ footer a{color:var(--chalk-muted)}
         <span class="chip"><span class="sw" style="background:#1c7ed6"></span>液体压强分布（随竖直深度增大）</span>
         <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板承受的合力 F原</span>
       </div>
-      <figcaption>图 A：插入新挡板之前——液体和固体给原挡板的<b>合力一样大</b>，都等于整块材料的 mg sinθ（概念示例：1000 吨力）。区别只在于液体的压力分布可以由深度算出，而刚性固体只谈合力。</figcaption>
+      <figcaption>图 A：插板前，液体和固体给挡板的<b>合力一样大</b>（概念示例：1000 吨力）。</figcaption>
     </div>
   </figure>
 
@@ -296,7 +303,7 @@ footer a{color:var(--chalk-muted)}
         <span class="chip"><span class="sw" style="background:rgba(47,127,209,.6)"></span>水</span>
         <span class="chip"><span class="sw" style="background:#c3cad2"></span>刚性固体</span>
       </div>
-      <figcaption>图 B：插入新挡板之后——分道扬镳。液体：原挡板每一点的液深没变，压力分布与合力<b>完全不变</b>。固体：上游那一大块的重量被新挡板接走，原挡板只剩紧挨着的薄片，合力骤降到约 1 kgf·sinθ。</figcaption>
+      <figcaption>图 B：插板后，分道扬镳。液体：力<b>完全不变</b>。固体：重量被新挡板接走，原挡板几乎没力了。为什么？往下看。</figcaption>
     </div>
   </figure>
 
@@ -373,6 +380,7 @@ footer a{color:var(--chalk-muted)}
   <p><b>完全不变。</b>原因藏在静水压强的公式里：</p>
   <div class="formula"><i>p</i> = <i>ρ</i> <i>g</i> <i>h</i></div>
   <p>这里 <i>h</i> 是这一点到自由液面的<b>竖直深度</b>——竖直往上量到水面有多深。它<b>不是</b>沿斜面量的距离，更<b>不是</b>水层有多厚。</p>
+  <div class="quote">生活版：在游泳池潜水，耳朵有多疼只看你<b>潜了多深</b>，不看池子有多长多大。挡板就是那只耳朵。</div>
   <p>原挡板只「感觉」得到紧贴着它的那层水。插板之后，这层水每一点的竖直深度没变、密度没变、挡板的浸水面积也没变，所以把压强在整个板面上加起来的合力：</p>
   <div class="formula"><i>F</i><sub>原</sub> = ∫ <i>ρ</i> <i>g</i> <i>h</i> d<i>A</i>&nbsp;&nbsp;——一丝不变</div>
 
