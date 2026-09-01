@@ -1,9 +1,9 @@
 name = "littlewood-io"
 compatibility_date = "2026-08-31"
 
-[assets]
-directory = "./public"
-
 routes = [
   { pattern = "littlewood.io", custom_domain = true }
 ]
+
+[assets]
+directory = "./public"
