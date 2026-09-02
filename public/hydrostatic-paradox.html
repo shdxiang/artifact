@@ -180,13 +180,21 @@ footer a{color:var(--chalk-muted)}
   h2{font-size:1.22rem}
   .mascot{width:64px}
 }
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.js .hero .wrap>*{animation:up .85s cubic-bezier(.2,.75,.2,1) backwards}
+.js .hero .wrap>*:nth-child(2){animation-delay:.1s}
+.js .hero .wrap>*:nth-child(3){animation-delay:.2s}
+.js .hero .wrap>*:nth-child(4){animation-delay:.3s}
+.js .reveal{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s ease}
+.js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important;animation:none !important}
+  .js .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
-
+<script>document.documentElement.className+=" js";</script>
 
 <!-- 全局箭头标记 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -223,7 +231,7 @@ footer a{color:var(--chalk-muted)}
 
 <main>
 
-<div class="tldr">
+<div class="tldr reveal">
   <p>① 挡板只「感觉」得到紧贴着它的那层水，别的它不知道。</p>
   <p>② 水压只看<b>离水面多深</b>，不看水层有多厚。</p>
   <p>③ 插板后每一点的深度都没变，所以力一点没变。那 1 kg 水只是被两个巨大的反向力夹着，它自己受到的净力还是很小。</p>
@@ -234,7 +242,7 @@ footer a{color:var(--chalk-muted)}
   <h2><span class="num" aria-hidden="true">1</span>先看两组对比图：液体 vs 固体</h2>
   <p>先不讲公式，看图。同样质量的一楔子<b style="color:#9ecbe8">水</b>和一块<b style="color:#cfd6dd">理想刚性固体</b>，同一个光滑斜面，同一块挡板。问题只有一个：插入新挡板<b>前后</b>，原挡板受的力怎么变？</p>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <div class="panels">
         <div>
@@ -277,7 +285,7 @@ footer a{color:var(--chalk-muted)}
     </div>
   </figure>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <div class="panels">
         <div>
@@ -328,13 +336,13 @@ footer a{color:var(--chalk-muted)}
     </div>
   </figure>
 
-  <div class="key">同样的质量、同样的形状：插一块板，液体给原挡板的力纹丝不动，固体给原挡板的力几乎归零。为什么差出六个数量级？下面一步步拆。</div>
+  <div class="key reveal">同样的质量、同样的形状：插一块板，液体给原挡板的力纹丝不动，固体给原挡板的力几乎归零。为什么差出六个数量级？下面一步步拆。</div>
 </section>
 
 <!-- ========== 模型设定 ========== -->
 <section>
   <h2><span class="num" aria-hidden="true">2</span>先说好游戏规则（理想模型）</h2>
-  <div class="card">
+  <div class="card reveal">
     <ul class="tight">
       <li>一个<b>光滑斜面</b>，倾角为 θ（光滑 = 斜面不提供沿斜面方向的摩擦力）；</li>
       <li><b>原挡板</b>垂直于斜面，立在下坡方向，拦住液体；</li>
@@ -345,7 +353,7 @@ footer a{color:var(--chalk-muted)}
       <li>插入新挡板后，<b>两部分液体的液面高度保持不变</b>。</li>
     </ul>
   </div>
-  <div class="warn">
+  <div class="warn reveal">
     <b>单位约定（很重要）：</b>本文用「千克力（kgf）」表示<b>力</b>：1 kgf 等于 1 千克物体所受的重力，约 9.8 N；1 吨力 = 1000 kgf。
     <b>kg 是质量单位，kgf 是力的单位</b>，两者严格区分，绝不混用。文中的具体数字都是标注清楚的「概念示例」，只为看清数量级。
   </div>
@@ -358,7 +366,7 @@ footer a{color:var(--chalk-muted)}
   <div class="formula"><i>F</i><sub>原</sub> = <i>m</i> <i>g</i> sin<i>θ</i><span class="fnote">m 为全部液体的质量</span></div>
   <p><b>概念示例：</b>设水足够多，这一项恰好等于 <b>1000 吨力（1 000 000 kgf）</b>。记住这个数，后面一直用它。</p>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <svg class="wide" viewBox="0 0 640 420" role="img" aria-label="斜面上的水与原挡板受力图">
         <!-- 地面基准与斜面 -->
@@ -401,11 +409,11 @@ footer a{color:var(--chalk-muted)}
   <p><b>完全不变。</b>原因藏在静水压强的公式里：</p>
   <div class="formula"><i>p</i> = <i>ρ</i> <i>g</i> <i>h</i></div>
   <p>这里 <i>h</i> 是这一点到自由液面的<b>竖直深度</b>——竖直往上量到水面有多深。它<b>不是</b>沿斜面量的距离，更<b>不是</b>水层有多厚。</p>
-  <div class="quote">生活版：在游泳池潜水，耳朵有多疼只看你<b>潜了多深</b>，不看池子有多长多大。挡板就是那只耳朵。</div>
+  <div class="quote reveal">生活版：在游泳池潜水，耳朵有多疼只看你<b>潜了多深</b>，不看池子有多长多大。挡板就是那只耳朵。</div>
   <p>原挡板只「感觉」得到紧贴着它的那层水。插板之后，这层水每一点的竖直深度没变、密度没变、挡板的浸水面积也没变，所以把压强在整个板面上加起来的合力：</p>
   <div class="formula"><i>F</i><sub>原</sub> = ∫ <i>ρ</i> <i>g</i> <i>h</i> d<i>A</i><span class="fnote">一丝不变</span></div>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <div class="panels">
         <div>
@@ -459,7 +467,7 @@ footer a{color:var(--chalk-muted)}
     </div>
   </figure>
 
-  <div class="key">
+  <div class="key reveal">
     压强不会「穿透」刚性挡板。每块挡板的两个表面，各自只与紧挨着的液体发生接触作用。
     新挡板自己：两侧液面等高、密度相同，所以它每一侧确实各承受着约 1000 吨力的压力，但两侧<b>等大反向</b>，作用在新挡板上的<b>净合力为零</b>——千万别把「单侧压力」和「净合力」混为一谈。
   </div>
@@ -469,7 +477,7 @@ footer a{color:var(--chalk-muted)}
 <section>
   <h2><span class="num" aria-hidden="true">5</span>最反直觉的时刻：两板只隔 1 毫米</h2>
   <p>把新挡板一路推近，直到离原挡板只剩 <b>1 mm</b>。两板之间的薄层水，质量只有约 <b>1 kg</b>——一瓶矿泉水的量。但由上一节的结论，原挡板受到的静水压力合力<b>仍然等效于约 1000 吨力</b>。</p>
-  <div class="warn"><b>先把话说死：</b>「1000 吨力」是<b>力</b>（1 000 000 kgf），不是中间那点水的质量。中间的水，质量只有约 1 kg。</div>
+  <div class="warn reveal"><b>先把话说死：</b>「1000 吨力」是<b>力</b>（1 000 000 kgf），不是中间那点水的质量。中间的水，质量只有约 1 kg。</div>
   <p>那这 1 kg 水会不会被巨力压爆、飞出去？不会。看它的受力平衡：</p>
   <div class="formula"><i>F</i><sub>原</sub> − <i>F</i><sub>新</sub> = <i>m</i><sub>薄层水</sub> <i>g</i> sin<i>θ</i></div>
   <p><b>概念示例数字</b>（把 sinθ 因子并入取整的示意数，只看数量级）：</p>
@@ -478,11 +486,11 @@ footer a{color:var(--chalk-muted)}
     <li>新挡板推薄层水（指向下坡）：约 <b>999 999 kgf</b>（1000 吨力 − 1 kgf·sinθ 量级）；</li>
     <li>两个巨大反向作用力的<b>差值</b>：约 <b>1 kgf</b>——这才是薄层水自己沿斜面的重力分量。</li>
   </ul>
-  <div class="quote">
+  <div class="quote reveal">
     不是 1 kg 水产生了一个没有来源的 1000 吨净力，而是 1 kg 水被<b>夹在两个近乎相等、方向相反的巨大压力之间</b>。它受到的净力仍然很小。
   </div>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <svg class="wide" viewBox="0 0 640 330" role="img" aria-label="1 毫米薄层水的受力放大图">
         <text x="320" y="26" font-size="14" fill="#5b6472" text-anchor="middle">把两板之间放大来看（上坡方向朝右 →）</text>
@@ -515,7 +523,7 @@ footer a{color:var(--chalk-muted)}
     </div>
   </figure>
 
-  <div class="key" style="text-align:center;font-size:1.1rem">
+  <div class="key reveal" style="text-align:center;font-size:1.1rem">
     1 000 000 kgf − 999 999 kgf = 1 kgf&nbsp;&nbsp;——&nbsp;&nbsp;<b>大力 − 大力 = 小重力</b>
   </div>
 </section>
@@ -523,7 +531,7 @@ footer a{color:var(--chalk-muted)}
 <!-- ========== 交互演示 ========== -->
 <section class="demo">
   <h2><span class="num" aria-hidden="true">☆</span>亲手试一试：拖动挡板，切换材料</h2>
-  <div class="card">
+  <div class="card reveal">
     <p style="margin-top:0"><b>概念示例数字：</b>F原 固定为 1000 吨力（1 000 000 kgf）；d = 1 mm 时薄层水质量取 1 kg，其沿斜面重力分量记作 1 kgf（sinθ 因子并入示意数字，只看数量级）。kgf 是力的单位「千克力」，kg 是质量单位。</p>
 
     <div class="mbtns">
@@ -571,7 +579,7 @@ footer a{color:var(--chalk-muted)}
   </div>
 </section>
 
-<div class="layer-break"><span>已经理解了？下面继续追问几个更麻烦的问题。</span></div>
+<div class="layer-break reveal"><span>已经理解了？下面继续追问几个更麻烦的问题。</span></div>
 
 <!-- ========== 4 换成刚性固体 ========== -->
 <section>
@@ -586,7 +594,7 @@ footer a{color:var(--chalk-muted)}
   <div class="formula"><i>F</i><sub>新→固体</sub> = 0&nbsp;&nbsp;&nbsp;&nbsp;<i>F</i><sub>原</sub> = <i>m</i><sub>固体</sub> <i>g</i> sin<i>θ</i></div>
   <p>如果这层固体质量只有 1 kg，原挡板受到的合力就只有约 <b>1 kgf·sinθ</b>——而不是液体情况下的 1000 吨力。同样的质量，同样的位置，差了整整六个数量级。</p>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <div class="panels">
         <div>
@@ -632,7 +640,7 @@ footer a{color:var(--chalk-muted)}
     </div>
   </figure>
 
-  <div class="warn">
+  <div class="warn reveal">
     <b>两个容易说错的地方：</b>①不能说「固体完全没有内部应力」——正确的说法是：<b>固体能够维持静态剪切应力和固定形状</b>，所以它传递载荷的方式与静止液体不同。②对刚性固体与挡板之间的接触，局部压力分布并不必然均匀，我们只讨论可以确定的<b>合力</b>和<b>平均压强</b>。
   </div>
 </section>
@@ -642,7 +650,7 @@ footer a{color:var(--chalk-muted)}
   <h2><span class="num" aria-hidden="true">7</span>差别的根源：剪切应力</h2>
   <p>为什么同样 1 kg，水和固体给挡板的力差这么多？答案是一个词：<b>剪切应力</b>。用一叠扑克牌来看它是什么：</p>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <div class="panels">
         <div>
@@ -698,7 +706,7 @@ footer a{color:var(--chalk-muted)}
     <li>另外看<b>屈服应力</b>：重力产生的剪切应力低于屈服应力时，不发生明显流动；超过了，才开始流。</li>
   </ul>
 
-  <figure>
+  <figure class="reveal">
     <div class="figbox">
       <div class="spectrum">
         <div class="specbar" role="img" aria-label="沥青行为连续谱：从固体行为到液体行为"></div>
@@ -728,7 +736,7 @@ footer a{color:var(--chalk-muted)}
     d → 0⁺ 时：<i>m</i><sub>薄层水</sub> → 0，&nbsp;<i>F</i><sub>新</sub> → <i>F</i><sub>原</sub>，&nbsp;而&nbsp;
     lim<sub>d→0⁺</sub> <i>F</i><sub>原</sub> = <i>F</i><sub>0</sub>（不变）
   </div>
-  <div class="key">
+  <div class="key reveal">
     但在 d = 0 的那一瞬间，两板之间已经<b>没有水</b>了：原挡板不再接触水，作用力直接变成零。F原 在 d = 0 处发生跳变——这是理想模型中一个特殊的<b>不连续极限</b>，不是矛盾。
   </div>
   <p>而且真实世界到不了这个极限。当间距缩到<b>纳米、乃至单个水分子</b>的尺度，连续流体模型本身就失效了，必须考虑：</p>
@@ -739,38 +747,38 @@ footer a{color:var(--chalk-muted)}
     <li>分离压力（两个表面靠得极近时出现的额外作用）；</li>
     <li>压力涨落（分子热运动使「压强」不再是平滑的量）。</li>
   </ul>
-  <div class="warn">所以<b>不能</b>声称「一层水分子仍严格服从 p = ρgh」。p = ρgh 是连续介质的公式，只在远大于分子尺度时成立。</div>
+  <div class="warn reveal">所以<b>不能</b>声称「一层水分子仍严格服从 p = ρgh」。p = ρgh 是连续介质的公式，只在远大于分子尺度时成立。</div>
 </section>
 
 <!-- ========== 常见误解 ========== -->
 <section>
   <h2><span class="num" aria-hidden="true">✗</span>常见误解排雷</h2>
 
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>「1000 吨」说的是中间那点水的质量。</p>
     <p><span class="yes">✅ 正确：</span>1000 吨力是<b>力</b>（1 000 000 kgf，kgf = 千克力）。中间薄层水的<b>质量</b>只有约 1 kg。</p>
   </div>
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>原挡板是在「单独支撑那 1 kg 水」，所以 1000 吨净力凭空出现，违反常识。</p>
     <p><span class="yes">✅ 正确：</span>挡板上的压力来自紧贴它的水的压强，而压强由<b>竖直液深</b>决定（p = ρgh）。薄层水本身被两个近乎相等、方向相反的大力夹住，受到的<b>净力</b>只有约 1 kgf。</p>
   </div>
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>上游水的压力「穿透」了刚性新挡板，压到了原挡板上。</p>
     <p><span class="yes">✅ 正确：</span>压强不穿透刚性挡板。每块挡板的两个表面<b>分别</b>与各自相邻的液体发生接触作用；原挡板的力全部来自紧贴它的薄层水。</p>
   </div>
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>新挡板单侧受约 1000 吨力，所以新挡板会被 1000 吨力推走。</p>
     <p><span class="yes">✅ 正确：</span>别把<b>单侧压力</b>和<b>净合力</b>混为一谈。两侧液面等高、密度相同时，新挡板两侧压力大小相等、方向相反，<b>净合力为零</b>。</p>
   </div>
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>黏度足够高的液体，最终就和固体一样。</p>
     <p><span class="yes">✅ 正确：</span>黏度高只表示流得<b>慢</b>。牛顿流体静止时 du/dy = 0，剪切应力必为零，不能永久维持剪切。能不能「像固体」，要看屈服应力和黏弹性（见沥青一节），不是看黏度大小。</p>
   </div>
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>把水层缩到一个分子那么薄，p = ρgh 照样精确成立。</p>
     <p><span class="yes">✅ 正确：</span>p = ρgh 是连续介质公式。到纳米 / 单分子尺度，要考虑分子尺寸、表面张力、润湿性、毛细作用、分离压力和压力涨落，连续流体模型失效。</p>
   </div>
-  <div class="mis">
+  <div class="mis reveal">
     <p><span class="no">❌ 误解：</span>刚性固体贴着挡板，接触压力一定均匀分布。</p>
     <p><span class="yes">✅ 正确：</span>理想刚性接触的局部压力分布并不确定。我们只讨论能确定的<b>合力</b>与<b>平均压强</b>。</p>
   </div>
@@ -779,7 +787,7 @@ footer a{color:var(--chalk-muted)}
 <!-- ========== 总结对比表 ========== -->
 <section>
   <h2><span class="num" aria-hidden="true">∑</span>最终总结：一张表看懂</h2>
-  <div class="tblwrap">
+  <div class="tblwrap reveal">
     <table>
       <thead>
         <tr>
@@ -815,7 +823,7 @@ footer a{color:var(--chalk-muted)}
       </tbody>
     </table>
   </div>
-  <div class="key">
+  <div class="key reveal">
     一句话收尾：挡板受多大力，不是看它旁边「有多少千克东西」，而是看那东西<b>用什么方式传力</b>。静止的水只会用「随深度增大的压强」说话，于是 1 kg 的薄水层，也能让挡板顶着 1000 吨力——同时它自己受到的净力，仍然小得可怜。
   </div>
 </section>
@@ -940,6 +948,16 @@ footer a{color:var(--chalk-muted)}
 
   // 自检：平衡关系 F原 − F新 = 重力分量（水的概念示例）
   console.assert(F0 - (F0 - 1) === 1, 'equilibrium check failed');
+  // 滚动渐显
+  var targets = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)){
+    targets.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
+    targets.forEach(function(el){ io.observe(el); });
+  }
   render();
 })();
 </script>
