@@ -9,12 +9,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Every page is one self-contained HTML file in `public/` with all CSS, JS, and SVG inline. No build step, no dependencies, no external fonts/CDN — keep it that way (hard requirement from the original brief).
 - `public/index.html` — landing page (mascot logo in logo.svg/favicon.svg), cards linking to the question pages. A new article = a new `public/<english-slug>.html` + a card here.
 - `public/hydrostatic-paradox.html` — the article.
+- `public/404.html`, `robots.txt`, `sitemap.xml`, `_headers`, `og-*.png` (1200×630 social previews) — add a sitemap entry + OG image for each new article.
 - `wrangler.toml` — Cloudflare Worker static-assets config serving `public/`, custom domain littlewood.io.
 
 ## Commands
 
 - Deploy: push to `main` — Cloudflare auto-deploys from the GitHub repo (`npx wrangler deploy` also works but needs auth)
-- Preview locally: `npx wrangler dev` or just open the HTML file in a browser
+- Preview locally: `npx wrangler dev` (internal links are extensionless — `/hydrostatic-paradox` — because Cloudflare 307-redirects `.html`; opening files directly in a browser works per page but cross-page links won't resolve)
 
 ## Conventions
 
@@ -29,4 +30,4 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Two-layer articles: 快速理解 first (core logic + the interactive demo), then a `.layer-break` divider ("已经理解了？…") before the deeper half.
 - Figures carry the story: figures + captions alone should convey ~70% of an article; one figure answers exactly one question; formulas support figures, not prose.
 - Interactives stay deliberately simple: 1–2 variables, purpose is understanding, not simulation.
-- Keep the 图解 NN series numbering and English-slug URLs (e.g. /hydrostatic-paradox.html).
+- Keep the 图解 NN series numbering and English-slug URLs (e.g. /hydrostatic-paradox); every page carries `<link rel=canonical>` + OG tags.
