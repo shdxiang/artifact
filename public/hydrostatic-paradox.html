@@ -66,9 +66,10 @@ main{max-width:880px;margin:0 auto;padding:0 16px 72px}
 /* ---- 首屏 ---- */
 header.hero{padding:56px 0 0}
 .hero .wrap{max-width:880px;margin:0 auto;padding:0 16px 8px}
-.hero .eyebrow{color:var(--yellow);letter-spacing:.14em;font-size:.95rem;font-weight:700}
-.hero .eyebrow a{color:inherit;text-decoration:none}
-.hero .eyebrow a:hover{text-decoration:underline}
+.hero .eyebrow{color:var(--yellow);letter-spacing:.14em;font-size:.95rem;font-weight:700;display:flex;align-items:center;flex-wrap:wrap;gap:0 10px}
+.hero .eyebrow .home{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;border-bottom:1.5px dashed var(--chalk-line);padding-bottom:2px}
+.hero .eyebrow .home:hover{border-bottom-color:var(--yellow)}
+.hero .eyebrow .home svg{width:24px;height:auto;flex:none}
 .hero h1{font-weight:800;font-size:clamp(1.55rem,4.4vw,2.5rem);line-height:1.5;margin:16px 0;max-width:820px;color:var(--yellow)}
 .mrow{display:flex;gap:16px;align-items:flex-start;margin-top:24px;max-width:640px}
 .mascot{flex:none;width:84px;height:auto;color:var(--chalk)}
@@ -209,7 +210,7 @@ footer a{color:var(--chalk-muted)}
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow"><a href="./">小木块</a> · 图解 01 · 流体静力学</div>
+    <div class="eyebrow"><a class="home" href="./" aria-label="回到小木块首页"><svg viewBox="10 12 82 74" aria-hidden="true"><rect x="23" y="26" width="60" height="56" rx="3" fill="rgba(0,0,0,.28)"/><rect x="20" y="22" width="60" height="56" rx="3" fill="#f7f2e9"/><rect x="14" y="18" width="22" height="9" rx="1.5" fill="#e8c86a" opacity=".85" transform="rotate(-14 25 22)"/><rect x="64" y="18" width="22" height="9" rx="1.5" fill="#e8c86a" opacity=".85" transform="rotate(12 75 22)"/><line x1="30" y1="70" x2="70" y2="46" stroke="#3a3128" stroke-width="2.5" stroke-linecap="round"/><g transform="translate(50,52) rotate(-31)"><rect x="-7" y="-4" width="14" height="14" rx="2" fill="#a86f32"/><rect x="-7" y="-7" width="14" height="14" rx="2" fill="#d9a05e"/></g></svg>小木块</a><span>· 图解 01 · 流体静力学</span></div>
     <h1>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h1>
     <div class="conflict">
       <p>斜面上装着一大楔子水，压在挡板上的合力约 <b>1000 吨力</b>。</p>
