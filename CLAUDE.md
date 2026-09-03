@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Keep kg (mass) vs kgf (force) strictly separated in copy — the hydrostatic article's whole point is not confusing them.
 - Force-arrow colors are semantic and consistent across every figure: orange F原, purple F新, green gravity, teal normal force, blue pressure distribution. Don't reassign them.
 - Chalkboard theme (2026-09): page ground is a green board (soft vignette, no frame); figures/cards are light "paper panels" pinned on it (soft shadow + tape corners on .figbox) and keep the original semantic colors. Anything drawn directly on the board is chalk-colored (text #f2efe4, yellow #e8c86a accents).
-- Mascot/logo (2026-09): wood-block head (#d9a05e face, #a86f32 underside) with a chalk-white face (#f7f3e8) and a yellow chalk stick; body is chalk line-art. Same head everywhere: favicon.svg, icon-*.png, logo.svg, page mascots, OG images. Bump `favicon.svg?v=N` when it changes.
+- Logo (2026-09): a figure sheet taped to the board — paper #f7f2e9, two yellow tape corners, an ink slope with a small wood block (#d9a05e/#a86f32). Same mark in favicon.svg, icon-*.png, logo.svg, index cover, 404 (blank sheet) and OG images; bump `favicon.svg?v=N` when it changes. The article's "小木块说" bubble keeps the wood-block-head character (chalk-white face).
 - Numbers on the page are labeled "概念示例" (conceptual examples); don't present them as measured values.
 
 ## Editorial principles (site review, 2026-09)

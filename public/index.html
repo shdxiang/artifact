@@ -17,7 +17,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=3">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=4">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
@@ -46,9 +46,7 @@ a{color:var(--blue)}
 main{max-width:760px;margin:0 auto;padding:64px 20px 64px}
 
 .cover{text-align:center}
-.cover .mascot{width:170px;height:auto;display:block;margin:0 auto;color:var(--chalk)}
-.cover .mascot .eye{transform-origin:center;animation:blink 5.5s infinite}
-@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+.cover .mascot{width:150px;height:auto;display:block;margin:0 auto;transform:rotate(-2deg)}
 .cover h1{font-weight:800;font-size:clamp(2.4rem,8vw,3.6rem);letter-spacing:.12em;margin:18px 0 8px;color:var(--yellow)}
 .cover .tagline{font-size:1.12rem;margin:0;color:var(--chalk)}
 .cover .littlewood{font-size:.88rem;color:var(--chalk-muted);margin:10px 0 0}
@@ -85,7 +83,7 @@ p.more{color:var(--chalk-muted);text-align:center;margin-top:32px}
 
 footer{max-width:760px;margin:0 auto;padding:0 20px 48px;color:var(--chalk-muted);font-size:.9rem;text-align:center}
 footer a{color:var(--chalk-muted)}
-@media (max-width:560px){body{font-size:15px}main{padding-top:44px}.cover .mascot{width:130px}.blocks{margin:34px auto}.doodle{display:none}}
+@media (max-width:560px){body{font-size:15px}main{padding-top:44px}.cover .mascot{width:120px}.blocks{margin:34px auto}.doodle{display:none}}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .cover>*,.js .blocks,.js .toc-head,.js a.item,.js p.more{animation:up .85s cubic-bezier(.2,.75,.2,1) backwards}
 .js .cover>*:nth-child(2){animation-delay:.1s}
@@ -112,18 +110,8 @@ footer a{color:var(--chalk-muted)}
 
 <main>
   <div class="cover">
-    <svg class="mascot" viewBox="0 0 160 200" role="img" aria-label="小木块，一个木头脑袋、拿着粉笔的方块小人">
-      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
-        <line x1="58" y1="106" x2="30" y2="84" stroke-width="9"/>
-        <line x1="102" y1="106" x2="130" y2="126" stroke-width="9"/>
-        <line x1="68" y1="147" x2="68" y2="176" stroke-width="9"/>
-        <line x1="92" y1="147" x2="92" y2="176" stroke-width="9"/>
-        <rect x="55" y="92" width="50" height="55" rx="12"/>
-      </g>
-      <rect x="14" y="66" width="26" height="9" rx="3" fill="#e8c86a" transform="rotate(38 27 70)"/>
-      <rect x="36" y="16" width="88" height="80" rx="16" fill="#a86f32"/>
-      <rect x="36" y="10" width="88" height="80" rx="16" fill="#d9a05e"/>
-      <circle class="eye" cx="66" cy="50" r="5" fill="#f7f3e8"/><circle class="eye" cx="92" cy="50" r="5" fill="#f7f3e8"/><path d="M70,64 q9,8 18,0" fill="none" stroke="#f7f3e8" stroke-width="4" stroke-linecap="round"/>
+    <svg class="mascot" viewBox="10 12 82 74" role="img" aria-label="小木块：一张用胶带钉在黑板上的图纸，画着斜面上的木块">
+      <rect x="23" y="26" width="60" height="56" rx="3" fill="rgba(0,0,0,.28)"/><rect x="20" y="22" width="60" height="56" rx="3" fill="#f7f2e9"/><rect x="14" y="18" width="22" height="9" rx="1.5" fill="#e8c86a" opacity=".85" transform="rotate(-14 25 22)"/><rect x="64" y="18" width="22" height="9" rx="1.5" fill="#e8c86a" opacity=".85" transform="rotate(12 75 22)"/><line x1="30" y1="70" x2="70" y2="46" stroke="#3a3128" stroke-width="2.5" stroke-linecap="round"/><g transform="translate(50,52) rotate(-31)"><rect x="-7" y="-4" width="14" height="14" rx="2" fill="#a86f32"/><rect x="-7" y="-7" width="14" height="14" rx="2" fill="#d9a05e"/></g>
     </svg>
     <h1>小木块</h1>
     <svg class="swash" viewBox="0 0 220 14" aria-hidden="true"><path d="M4,9 Q60,3 110,8 T216,6" fill="none" stroke="#e8c86a" stroke-width="4" stroke-linecap="round" opacity=".85"/></svg>
