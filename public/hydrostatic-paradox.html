@@ -16,11 +16,18 @@
 <meta property="og:image" content="https://littlewood.io/og-hydrostatic-paradox.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="斜面上的两块挡板夹住薄层水，仍承受巨大的静水压力">
+<meta property="article:published_time" content="2026-08-31">
+<meta property="article:modified_time" content="2026-09-04">
+<meta property="article:section" content="流体静力学">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？">
+<meta name="twitter:description" content="分清质量与力，看懂静水压强为什么只看深度、不看水层厚度。">
+<meta name="twitter:image" content="https://littlewood.io/og-hydrostatic-paradox.png">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=4">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=4">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=4">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
 <style>
 :root{
   --board:#2b4a3e; --chalk:#f2efe4; --chalk-muted:#c1ccbd; --yellow:#e8c86a;
@@ -37,6 +44,7 @@
   --math:Georgia,"Times New Roman","Songti SC",SimSun,serif;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:78px}
 ::selection{background:rgba(232,200,106,.35)}
 body{
   margin:0;color:var(--chalk);
@@ -53,9 +61,13 @@ body{
 a{color:var(--blue)}
 :focus-visible{outline:3px solid var(--yellow);outline-offset:2px;border-radius:6px}
 main{max-width:880px;margin:0 auto;padding:0 16px 72px}
+.skip-link{position:fixed;left:16px;top:12px;z-index:1000;background:#fff;color:var(--ink);padding:8px 14px;border-radius:9px;box-shadow:0 4px 18px rgba(0,0,0,.28);transform:translateY(-160%);transition:transform .15s}
+.skip-link:focus{transform:none}
+.reading-progress{position:fixed;inset:0 0 auto;height:4px;background:rgba(0,0,0,.18);z-index:999;pointer-events:none}
+.reading-progress span{display:block;width:100%;height:100%;background:var(--yellow);transform:scaleX(0);transform-origin:left;will-change:transform}
 
 /* 贴在黑板上的「白纸面板」：内部回到纸面配色，图内语义色不动 */
-.card,.figbox,.warn,.quote,.key,.tldr,.say,.formula,.tblwrap,.matnote,.mis{
+.card,.figbox,.warn,.quote,.key,.say,.formula,.tblwrap,.matnote,.mis{
   --muted:#7a6f60; --line:#e4dac8;
   color:var(--ink);
   box-shadow:0 3px 10px rgba(0,0,0,.22);
@@ -73,7 +85,9 @@ header.hero{padding:56px 0 0}
 .topbar .home:hover::after,.topbar .home:focus-visible::after{transform:scaleX(1)}
 .topbar .series{display:inline-flex;align-items:center;gap:10px;color:var(--chalk-muted);font-size:.92rem;letter-spacing:.06em}
 .topbar .series b{color:var(--yellow);border:2px solid var(--yellow);border-radius:7px;padding:1px 9px;font-size:.85rem;letter-spacing:.1em;white-space:nowrap}
-.hero h1{font-weight:800;font-size:clamp(1.55rem,4.4vw,2.5rem);line-height:1.5;margin:26px 0 16px;max-width:820px;color:var(--yellow)}
+.hero h1{font-weight:800;font-size:clamp(1.75rem,5vw,2.7rem);line-height:1.4;margin:26px 0 16px;max-width:820px;color:var(--yellow);text-wrap:balance}
+.article-meta{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;color:var(--chalk-muted);font-size:.82rem}
+.article-meta span,.article-meta time{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(242,239,228,.28);border-radius:999px;padding:3px 10px;background:rgba(0,0,0,.08)}
 .mrow{display:flex;gap:16px;align-items:flex-start;margin-top:24px;max-width:640px}
 .mascot{flex:none;width:84px;height:auto;color:var(--chalk)}
 .mascot .eye{transform-origin:center;animation:blink 5.5s infinite}
@@ -81,17 +95,20 @@ header.hero{padding:56px 0 0}
 .say{position:relative;background:#fff;border:2px solid var(--wood);border-radius:14px;padding:12px 16px}
 .say::before{content:"";position:absolute;left:-9px;top:28px;width:14px;height:14px;background:#fff;border-left:2px solid var(--wood);border-bottom:2px solid var(--wood);transform:rotate(45deg)}
 
-section{margin-top:56px}
+section{margin-top:56px;scroll-margin-top:78px}
 h2{font-size:1.4rem;font-weight:800;line-height:1.45;display:flex;align-items:center;gap:14px;margin:0 0 18px;padding-bottom:12px;border-bottom:2px dashed var(--chalk-line)}
 h2 .num{flex:none;display:inline-flex;align-items:center;justify-content:center;width:2.1em;height:2.1em;border:2px solid var(--yellow);border-radius:9px;color:var(--yellow);font-size:1rem;font-weight:800}
 h3{font-size:1.08rem;font-weight:700;margin:22px 0 8px}
 p{margin:10px 0}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
-.key,.tldr{position:relative;background:#fff;border:2px solid var(--wood);border-radius:14px;padding:26px 18px 14px;margin:26px 0;font-weight:600}
-.tldr p{margin:6px 0}
+.key{position:relative;background:#fff;border:2px solid var(--wood);border-radius:14px;padding:26px 18px 14px;margin:26px 0;font-weight:600}
 .key::before{content:"划重点";position:absolute;top:-13px;left:16px;background:var(--wood-deep);color:#fff;font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 12px;letter-spacing:.1em}
-.tldr::before{content:"太长不看";position:absolute;top:-13px;left:16px;background:#2b6b57;color:#fff;font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 12px;letter-spacing:.1em}
+.quicknav{position:sticky;top:12px;z-index:30;display:flex;align-items:center;gap:6px;margin:20px 0 34px;padding:7px;background:rgba(247,242,233,.96);border:1px solid var(--line);border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.22);overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none;backdrop-filter:blur(10px)}
+.quicknav::-webkit-scrollbar{display:none}
+.quicknav a{flex:0 0 auto;color:var(--muted);font-size:.84rem;font-weight:700;text-decoration:none;padding:6px 10px;border-radius:8px;transition:background .15s,color .15s}
+.quicknav a:hover{background:#eee5d5;color:var(--ink)}
+.quicknav a[aria-current="location"]{background:var(--board);color:var(--chalk)}
 .warn{background:#fdf3e4;border-left:5px solid #b3611e;border-radius:10px;padding:13px 17px;margin:20px 0}
 .quote{background:#fff;border:2px solid var(--wood);border-radius:14px;padding:14px 18px;margin:20px 0;font-weight:600}
 .formula{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:16px 0;text-align:center;font-size:1.28rem;line-height:1.8;font-family:var(--math)}
@@ -115,6 +132,8 @@ ul.tight{margin:8px 0;padding-left:1.4em}
 ul.tight li{margin:6px 0}
 
 /* 交互演示 */
+.demo fieldset{border:0;padding:0;margin:16px 0;min-width:0}
+.demo legend{font-size:.84rem;color:var(--muted);font-weight:700;margin-bottom:7px}
 .demo .mbtns{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
 .mbtn{flex:1 1 110px;padding:11px 16px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:1rem;cursor:pointer;font-weight:700;color:var(--muted);box-shadow:0 3px 0 var(--line);transition:background .15s,color .15s,border-color .15s,box-shadow .15s}
 .mbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
@@ -137,6 +156,14 @@ ul.tight li{margin:6px 0}
 .bfill.old{background:var(--f-old)} .bfill.new{background:var(--f-new)}
 .barnote{font-size:.88rem;color:var(--muted)}
 .matnote{margin-top:12px;padding:13px 15px;border-radius:12px;background:#fff;border:1px dashed var(--line);font-size:.95rem}
+.demo-insight{display:flex;align-items:flex-start;gap:12px;margin:14px 0;padding:13px 15px;border-radius:12px;background:#eef7f3;border:1px solid #b9d8ca}
+.demo-insight span{flex:none;color:#2b6b57;background:#d8ece3;border-radius:999px;padding:2px 9px;font-size:.76rem;font-weight:800;letter-spacing:.06em}
+.demo-insight b{line-height:1.6}
+.compact-details{margin-top:14px;padding:0;overflow:hidden}
+.compact-details summary{cursor:pointer;padding:14px 17px;font-weight:800;color:var(--ink);list-style-position:inside}
+.compact-details summary:hover{background:#f7f2e9}
+.compact-details[open] summary{border-bottom:1px dashed var(--line)}
+.compact-details p{padding:2px 17px 14px;color:var(--muted)}
 
 /* 沥青谱 */
 .spectrum{margin:18px 0}
@@ -167,6 +194,9 @@ td.mat-asphalt{color:var(--asphalt);font-weight:700}
 
 footer{max-width:880px;margin:48px auto 0;padding:0 16px 48px;color:var(--chalk-muted);font-size:.9rem;text-align:center}
 footer a{color:var(--chalk-muted)}
+.backtop{position:fixed;right:max(16px,calc((100vw - 960px)/2));bottom:18px;z-index:25;width:44px;height:44px;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(35,66,54,.92);color:var(--chalk);font-size:1.15rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s,background .2s}
+.backtop.show{opacity:1;transform:none;pointer-events:auto}
+.backtop:hover{background:#1d382e}
 .conflict{max-width:660px;margin:6px 0 0}
 .conflict p{margin:6px 0}
 .conflict .q{font-weight:700}
@@ -176,6 +206,7 @@ footer a{color:var(--chalk-muted)}
 .layer-break span{font-weight:700;color:var(--yellow)}
 @media (max-width:560px){
   body{font-size:15px}
+  header.hero{padding-top:34px}
   .card,.figbox{padding:14px 12px}
   .figbox svg.wide{min-width:560px}
   .speclabels{font-size:.72rem}
@@ -183,22 +214,30 @@ footer a{color:var(--chalk-muted)}
   .formula{font-size:1.05rem}
   h2{font-size:1.22rem}
   .mascot{width:64px}
+  .quicknav{margin-inline:-4px;top:8px}
+  .demo-insight{display:block}.demo-insight span{display:inline-block;margin-bottom:7px}
+  .backtop{right:12px;bottom:12px}
 }
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero .wrap>*{animation:up .85s cubic-bezier(.2,.75,.2,1) backwards}
 .js .hero .wrap>*:nth-child(2){animation-delay:.1s}
 .js .hero .wrap>*:nth-child(3){animation-delay:.2s}
 .js .hero .wrap>*:nth-child(4){animation-delay:.3s}
+.js .hero .wrap>*:nth-child(5){animation-delay:.4s}
+.js .hero .wrap>*:nth-child(6){animation-delay:.5s}
 .js .reveal{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s ease}
 .js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important;animation:none !important}
+  html{scroll-behavior:auto}
   .js .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 <script>document.documentElement.className+=" js";</script>
+<a class="skip-link" href="#main-content">跳到正文</a>
+<div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
 
 <!-- 全局箭头标记 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -224,6 +263,9 @@ footer a{color:var(--chalk-muted)}
       <p class="q">猜猜：原挡板现在承受多少力？</p>
       <p class="a">答案：还是约 1000 吨力。</p>
     </div>
+    <div class="article-meta" aria-label="文章信息">
+      <span>约 6 分钟</span><time datetime="2026-09-04">2026-09-04 更新</time>
+    </div>
     <div class="mrow">
       <svg class="mascot" viewBox="0 0 100 104" role="img" aria-label="小木块（木头脑袋，粉笔画的脸）">
         <rect x="6" y="16" width="88" height="80" rx="16" fill="#a86f32"/>
@@ -231,332 +273,121 @@ footer a{color:var(--chalk-muted)}
         <circle class="eye" cx="36" cy="50" r="5" fill="#f7f3e8"/><circle class="eye" cx="62" cy="50" r="5" fill="#f7f3e8"/><path d="M40,64 q9,8 18,0" fill="none" stroke="#f7f3e8" stroke-width="4" stroke-linecap="round"/>
         <rect x="64" y="84" width="24" height="7.5" rx="2.5" fill="#e8c86a" transform="rotate(-20 76 88)"/>
       </svg>
-      <div class="say"><b>小木块说：</b>没写错，也没算错——关键是分清「质量」和「力」。中学知识就够，跟我一步步画。</div>
+      <div class="say"><b>小木块说：</b>没写错。画两张受力图，6 分钟就能看懂。</div>
     </div>
   </div>
 </header>
 
-<main>
+<main id="main-content">
 
-<div class="tldr reveal">
-  <p>① 挡板只「感觉」得到紧贴着它的那层水，别的它不知道。</p>
-  <p>② 水压只看<b>离水面多深</b>，不看水层有多厚。</p>
-  <p>③ 插板后每一点的深度都没变，所以力一点没变。那 1 kg 水只是被两个巨大的反向力夹着，它自己受到的净力还是很小。</p>
-</div>
+<nav class="quicknav" aria-label="文章快速导航">
+  <a href="#pressure" aria-current="location">为什么不变</a>
+  <a href="#lab">动手试试</a>
+  <a href="#solid">液体 vs 固体</a>
+  <a href="#pitfalls">误解排雷</a>
+</nav>
 
-<!-- ========== 开篇对比 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">1</span>先看两组对比图：液体 vs 固体</h2>
-  <p>先不讲公式，看图。同样质量的一楔子<b style="color:#9ecbe8">水</b>和一块<b style="color:#cfd6dd">理想刚性固体</b>，同一个光滑斜面，同一块挡板。问题只有一个：插入新挡板<b>前后</b>，原挡板受的力怎么变？</p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <div class="panels">
-        <div>
-          <div class="panel-title" style="color:var(--water)">液体（插板前）</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="插板前：液体对挡板的压力分布与合力">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L201,150 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
-            <line x1="49" y1="150" x2="201" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <line x1="59" y1="158" x2="53" y2="161" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="69" y1="167" x2="58" y2="172" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="79" y1="176" x2="62" y2="182" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="89" y1="184" x2="67" y2="193" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="98" y1="193" x2="71" y2="204" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="59" y1="158" x2="98" y2="193" stroke="#1c7ed6" stroke-width="1" stroke-dasharray="4 3"/>
-            <line x1="112" y1="147" x2="62" y2="168" stroke="#e8590c" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="118" y="142" font-size="12" fill="#e8590c">合力 ≈1000 吨力</text>
-            <text x="112" y="222" font-size="11" fill="#1c7ed6">压强随深度分布</text>
-          </svg>
-        </div>
-        <div>
-          <div class="panel-title" style="color:#4b535c">理想刚性固体（插板前）</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="插板前：固体对挡板的合力，与液体相同">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L201,150 Z" fill="#c3cad2" stroke="#8a939e" stroke-width="1"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <line x1="112" y1="147" x2="62" y2="168" stroke="#e8590c" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="118" y="142" font-size="12" fill="#e8590c">合力 ≈1000 吨力</text>
-            <text x="106" y="222" font-size="11" fill="#5b6472">接触分布不确定，只画合力</text>
-          </svg>
-        </div>
-      </div>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#1c7ed6"></span>液体压强分布（随竖直深度增大）</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板承受的合力 F原</span>
-      </div>
-      <figcaption>图 A：插板前，液体和固体给挡板的<b>合力一样大</b>（概念示例：1000 吨力）。</figcaption>
-    </div>
-  </figure>
+<section id="pressure">
+  <h2><span class="num" aria-hidden="true">1</span>插入新挡板，为什么原挡板受力不变？</h2>
+  <p>原挡板只接触旁边的水。对静止、与大气相通的水，某点的表压是：</p>
+  <div class="formula"><i>p</i> = <i>ρgh</i><span class="fnote">h 是到自由液面的竖直深度</span></div>
+  <p>插入新挡板后，原挡板的浸水面积、每一点的深度 <i>h</i> 和水的密度 <i>ρ</i> 都没变。因此：</p>
+  <div class="formula"><i>F</i><sub>原</sub> = ∫ <i>ρgh</i> d<i>A</i><span class="fnote">插板前后完全相同</span></div>
 
   <figure class="reveal">
     <div class="figbox">
-      <div class="panels">
-        <div>
-          <div class="panel-title" style="color:var(--water)">液体（插板后）</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="插板后：液体对原挡板的压力完全不变">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="rgba(47,127,209,.45)" stroke="#2f7fd1" stroke-width="1"/>
-            <path d="M81,200 L60,150 L201,150 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
-            <line x1="49" y1="150" x2="55" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="64" y1="150" x2="201" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <line x1="81" y1="200" x2="52" y2="131" stroke="#5c636b" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <text x="70" y="118" font-size="12" fill="#5c636b">新挡板</text>
-            <line x1="59" y1="158" x2="53" y2="161" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="69" y1="167" x2="58" y2="172" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="79" y1="176" x2="62" y2="182" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="89" y1="184" x2="67" y2="193" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="98" y1="193" x2="71" y2="204" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="59" y1="158" x2="98" y2="193" stroke="#1c7ed6" stroke-width="1" stroke-dasharray="4 3"/>
-            <text x="112" y="222" font-size="11" fill="#e8590c">F原 仍 ≈1000 吨力，纹丝不动</text>
-          </svg>
-        </div>
-        <div>
-          <div class="panel-title" style="color:#4b535c">理想刚性固体（插板后）</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="插板后：固体对原挡板的力几乎归零，上游重量改压新挡板">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="#b2bac2" stroke="#8a939e" stroke-width="1"/>
-            <path d="M81,200 L60,150 L201,150 Z" fill="#c3cad2" stroke="#8a939e" stroke-width="1"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <line x1="81" y1="200" x2="52" y2="131" stroke="#5c636b" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <text x="70" y="118" font-size="12" fill="#5c636b">新挡板</text>
-            <line x1="136" y1="137" x2="72" y2="153" stroke="#6741d9" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mNew)"/>
-            <text x="142" y="132" font-size="12" fill="#6741d9">上游固体压新挡板 ≈1000 吨力</text>
-            <line x1="50" y1="174" x2="32" y2="182" stroke="#e8590c" stroke-width="3" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="60" y="240" font-size="12" fill="#e8590c">F原 只剩 ≈1 kgf·sinθ</text>
-          </svg>
-        </div>
-      </div>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板承受的合力 F原</span>
-        <span class="chip"><span class="sw" style="background:#6741d9"></span>新挡板承受的作用力</span>
-        <span class="chip"><span class="sw" style="background:rgba(47,127,209,.6)"></span>水</span>
-        <span class="chip"><span class="sw" style="background:#c3cad2"></span>刚性固体</span>
-      </div>
-      <figcaption>图 B：插板后，分道扬镳。液体：力<b>完全不变</b>。固体：重量被新挡板接走，原挡板几乎没力了。为什么？往下看。</figcaption>
-    </div>
-  </figure>
-
-  <div class="key reveal">同样的质量、同样的形状：插一块板，液体给原挡板的力纹丝不动，固体给原挡板的力几乎归零。为什么差出六个数量级？下面一步步拆。</div>
-</section>
-
-<!-- ========== 模型设定 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">2</span>先说好游戏规则（理想模型）</h2>
-  <div class="card reveal">
-    <ul class="tight">
-      <li>一个<b>光滑斜面</b>，倾角为 θ（光滑 = 斜面不提供沿斜面方向的摩擦力）；</li>
-      <li><b>原挡板</b>垂直于斜面，立在下坡方向，拦住液体；</li>
-      <li>液体两侧宽度固定；<b>忽略侧壁沿斜面方向的作用力</b>；</li>
-      <li>液面敞开，<b>与大气相通</b>；</li>
-      <li>所有挡板都是<b>刚性、固定、不透水</b>的；</li>
-      <li>后面插入的<b>新挡板</b>也垂直于斜面；</li>
-      <li>插入新挡板后，<b>两部分液体的液面高度保持不变</b>。</li>
-    </ul>
-  </div>
-  <div class="warn reveal">
-    <b>单位约定（很重要）：</b>本文用「千克力（kgf）」表示<b>力</b>：1 kgf 等于 1 千克物体所受的重力，约 9.8 N；1 吨力 = 1000 kgf。
-    <b>kg 是质量单位，kgf 是力的单位</b>，两者严格区分，绝不混用。文中的具体数字都是标注清楚的「概念示例」，只为看清数量级。
-  </div>
-</section>
-
-<!-- ========== 1 只有一块挡板 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">3</span>最初：只有一块挡板</h2>
-  <p>斜面上装着一大楔子水，下坡端被原挡板拦住。斜面是光滑的，帮不上沿斜面方向的忙；侧壁也不沿斜面出力。所以整堆水「想沿斜面往下溜」的那部分重力，<b>只能全部由原挡板顶住</b>：</p>
-  <div class="formula"><i>F</i><sub>原</sub> = <i>m</i> <i>g</i> sin<i>θ</i><span class="fnote">m 为全部液体的质量</span></div>
-  <p><b>概念示例：</b>设水足够多，这一项恰好等于 <b>1000 吨力（1 000 000 kgf）</b>。记住这个数，后面一直用它。</p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <svg class="wide" viewBox="0 0 640 420" role="img" aria-label="斜面上的水与原挡板受力图">
-        <!-- 地面基准与斜面 -->
-        <line x1="40" y1="360" x2="300" y2="360" stroke="#98a2b3" stroke-width="2" stroke-dasharray="7 6"/>
-        <line x1="40" y1="360" x2="620" y2="115" stroke="#495057" stroke-width="4" stroke-linecap="round"/>
-        <path d="M95,360 A55,55 0 0 0 91,339" fill="none" stroke="#495057" stroke-width="2"/>
-        <text x="106" y="352" font-size="16" fill="#495057" font-style="italic">θ</text>
-        <text x="455" y="222" font-size="14" fill="#5b6472">光滑斜面</text>
-        <!-- 水 -->
-        <path d="M141,317 L102,225 L360,225 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1.5"/>
-        <line x1="102" y1="225" x2="360" y2="225" stroke="#2f7fd1" stroke-width="3"/>
-        <text x="212" y="212" font-size="13" fill="#2f7fd1">水面（水平，与大气相通）</text>
-        <!-- 原挡板 -->
-        <line x1="141" y1="317" x2="94" y2="207" stroke="#343a40" stroke-width="10" stroke-linecap="round"/>
-        <text x="30" y="198" font-size="14" fill="#343a40">原挡板</text>
-        <!-- 力 -->
-        <line x1="201" y1="256" x2="201" y2="336" stroke="#2b8a3e" stroke-width="4" marker-end="url(#mGrav)"/>
-        <text x="208" y="325" font-size="15" fill="#2b8a3e" font-style="italic">mg</text>
-        <line x1="201" y1="256" x2="132" y2="285" stroke="#2b8a3e" stroke-width="3" marker-end="url(#mGrav)"/>
-        <text x="88" y="266" font-size="14" fill="#2b8a3e" font-style="italic">mg sinθ</text>
-        <line x1="316" y1="243" x2="283" y2="165" stroke="#0b7285" stroke-width="4" marker-end="url(#mN)"/>
-        <text x="292" y="156" font-size="15" fill="#0b7285" font-style="italic">N（斜面支持力）</text>
-        <line x1="138" y1="306" x2="208" y2="276" stroke="#e8590c" stroke-width="5" marker-end="url(#mOld)"/>
-        <text x="176" y="304" font-size="15" fill="#e8590c" font-style="italic">F原</text>
+      <svg class="wide" viewBox="0 0 680 300" role="img" aria-label="插板前后，原挡板上的压强分布完全相同">
+        <text x="160" y="28" font-size="15" font-weight="700" fill="#3a3128" text-anchor="middle">插板前</text>
+        <text x="505" y="28" font-size="15" font-weight="700" fill="#3a3128" text-anchor="middle">插板后</text>
+        <g>
+          <line x1="25" y1="250" x2="300" y2="135" stroke="#495057" stroke-width="3"/>
+          <path d="M75 229L48 165L225 165Z" fill="rgba(47,127,209,.3)" stroke="#2f7fd1"/>
+          <line x1="48" y1="165" x2="225" y2="165" stroke="#2f7fd1" stroke-width="3"/>
+          <line x1="75" y1="229" x2="42" y2="151" stroke="#343a40" stroke-width="8"/>
+          <g stroke="#1c7ed6" stroke-width="3" marker-end="url(#mP)">
+            <line x1="57" y1="172" x2="48" y2="176"/><line x1="66" y1="184" x2="51" y2="190"/>
+            <line x1="76" y1="198" x2="54" y2="207"/><line x1="86" y1="213" x2="59" y2="224"/>
+          </g>
+          <text x="115" y="265" font-size="13" fill="#1c7ed6">同一压强分布</text>
+        </g>
+        <line x1="340" y1="48" x2="340" y2="270" stroke="#e4dac8" stroke-dasharray="6 6"/>
+        <g transform="translate(345)">
+          <line x1="25" y1="250" x2="300" y2="135" stroke="#495057" stroke-width="3"/>
+          <path d="M75 229L48 165L62 165L90 223Z" fill="rgba(47,127,209,.52)" stroke="#2f7fd1"/>
+          <path d="M90 223L62 165L225 165Z" fill="rgba(47,127,209,.3)" stroke="#2f7fd1"/>
+          <line x1="48" y1="165" x2="225" y2="165" stroke="#2f7fd1" stroke-width="3"/>
+          <line x1="75" y1="229" x2="42" y2="151" stroke="#343a40" stroke-width="8"/>
+          <line x1="90" y1="223" x2="57" y2="145" stroke="#5c636b" stroke-width="8"/>
+          <g stroke="#1c7ed6" stroke-width="3" marker-end="url(#mP)">
+            <line x1="57" y1="172" x2="48" y2="176"/><line x1="66" y1="184" x2="51" y2="190"/>
+            <line x1="76" y1="198" x2="54" y2="207"/><line x1="86" y1="213" x2="59" y2="224"/>
+          </g>
+          <text x="115" y="265" font-size="13" fill="#1c7ed6">仍是同一分布</text>
+          <text x="58" y="135" font-size="12" fill="#5c636b">新挡板</text>
+        </g>
       </svg>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#2b8a3e"></span>重力 mg 及其沿斜面分量 mg sinθ</span>
-        <span class="chip"><span class="sw" style="background:#0b7285"></span>斜面支持力 N</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板对水的作用力 F原（沿斜面指向上坡）</span>
-      </div>
-      <figcaption>图 1：整堆水的沿斜面重力分量 mg sinθ，只能由原挡板的作用力 F原 来平衡。挡板与水的作用力是相互的：水也以同样大小的力压挡板（作用与反作用）。</figcaption>
-    </div>
-  </figure>
-</section>
-
-<!-- ========== 2 插入新挡板 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">4</span>插入一块很近的新挡板：原挡板受力变了吗？</h2>
-  <p>现在，在离原挡板很近的地方插入一块新挡板，把水<b>完全</b>分成上下游两段，并且两边液面高度都保持不变。原挡板受的力会变吗？</p>
-  <p><b>完全不变。</b>原因藏在静水压强的公式里：</p>
-  <div class="formula"><i>p</i> = <i>ρ</i> <i>g</i> <i>h</i></div>
-  <p>这里 <i>h</i> 是这一点到自由液面的<b>竖直深度</b>——竖直往上量到水面有多深。它<b>不是</b>沿斜面量的距离，更<b>不是</b>水层有多厚。</p>
-  <div class="quote reveal">生活版：在游泳池潜水，耳朵有多疼只看你<b>潜了多深</b>，不看池子有多长多大。挡板就是那只耳朵。</div>
-  <p>原挡板只「感觉」得到紧贴着它的那层水。插板之后，这层水每一点的竖直深度没变、密度没变、挡板的浸水面积也没变，所以把压强在整个板面上加起来的合力：</p>
-  <div class="formula"><i>F</i><sub>原</sub> = ∫ <i>ρ</i> <i>g</i> <i>h</i> d<i>A</i><span class="fnote">一丝不变</span></div>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <div class="panels">
-        <div>
-          <div class="panel-title">插板前</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="插入新挡板前，原挡板上的压力分布">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L201,150 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
-            <line x1="49" y1="150" x2="201" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <!-- 压力箭头（越深越长） -->
-            <line x1="59" y1="158" x2="53" y2="161" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="69" y1="167" x2="58" y2="172" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="79" y1="176" x2="62" y2="182" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="89" y1="184" x2="67" y2="193" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="98" y1="193" x2="71" y2="204" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="59" y1="158" x2="98" y2="193" stroke="#1c7ed6" stroke-width="1" stroke-dasharray="4 3"/>
-            <text x="108" y="200" font-size="12" fill="#1c7ed6">压强随深度变大</text>
-          </svg>
-        </div>
-        <div>
-          <div class="panel-title">插板后（液面高度不变）</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="插入新挡板后，原挡板上的压力分布不变">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <!-- 薄层水 -->
-            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="rgba(47,127,209,.45)" stroke="#2f7fd1" stroke-width="1"/>
-            <!-- 上游水 -->
-            <path d="M81,200 L60,150 L201,150 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
-            <line x1="49" y1="150" x2="55" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="64" y1="150" x2="201" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <line x1="81" y1="200" x2="52" y2="131" stroke="#5c636b" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <text x="70" y="118" font-size="12" fill="#5c636b">新挡板</text>
-            <!-- 与左图完全相同的压力箭头 -->
-            <line x1="59" y1="158" x2="53" y2="161" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="69" y1="167" x2="58" y2="172" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="79" y1="176" x2="62" y2="182" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="89" y1="184" x2="67" y2="193" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="98" y1="193" x2="71" y2="204" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="59" y1="158" x2="98" y2="193" stroke="#1c7ed6" stroke-width="1" stroke-dasharray="4 3"/>
-            <text x="120" y="205" font-size="12" fill="#1c7ed6">分布与左图完全相同</text>
-          </svg>
-        </div>
-      </div>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#1c7ed6"></span>原挡板上的压力分布（箭头长度 ∝ 竖直深度）</span>
-        <span class="chip"><span class="sw" style="background:rgba(47,127,209,.6)"></span>薄层水（颜色略深）</span>
-      </div>
-      <figcaption>图 2：插板前后对比。原挡板上每一点的竖直深度都没变，所以压力分布（蓝色箭头）插板前后完全相同，合力 F原 也不变。</figcaption>
+      <figcaption>原挡板上蓝色箭头的长度代表压强。插板没有改变任何一点的竖直深度，所以箭头和合力都不变。</figcaption>
     </div>
   </figure>
 
-  <div class="key reveal">
-    压强不会「穿透」刚性挡板。每块挡板的两个表面，各自只与紧挨着的液体发生接触作用。
-    新挡板自己：两侧液面等高、密度相同，所以它每一侧确实各承受着约 1000 吨力的压力，但两侧<b>等大反向</b>，作用在新挡板上的<b>净合力为零</b>——千万别把「单侧压力」和「净合力」混为一谈。
-  </div>
+  <details class="card compact-details">
+    <summary>这个结论需要哪些理想条件？</summary>
+    <p>斜面光滑；侧壁不提供沿斜面作用力；挡板刚性、固定且不漏水；水面与大气相通；插板前后液面高度不变。文中用 kg 表示质量、kgf 表示力，1 kgf ≈ 9.8 N。</p>
+  </details>
 </section>
 
-<!-- ========== 3 1mm 情况 ========== -->
 <section>
-  <h2><span class="num" aria-hidden="true">5</span>最反直觉的时刻：两板只隔 1 毫米</h2>
-  <p>把新挡板一路推近，直到离原挡板只剩 <b>1 mm</b>。两板之间的薄层水，质量只有约 <b>1 kg</b>——一瓶矿泉水的量。但由上一节的结论，原挡板受到的静水压力合力<b>仍然等效于约 1000 吨力</b>。</p>
-  <div class="warn reveal"><b>先把话说死：</b>「1000 吨力」是<b>力</b>（1 000 000 kgf），不是中间那点水的质量。中间的水，质量只有约 1 kg。</div>
-  <p>那这 1 kg 水会不会被巨力压爆、飞出去？不会。看它的受力平衡：</p>
-  <div class="formula"><i>F</i><sub>原</sub> − <i>F</i><sub>新</sub> = <i>m</i><sub>薄层水</sub> <i>g</i> sin<i>θ</i></div>
-  <p><b>概念示例数字</b>（把 sinθ 因子并入取整的示意数，只看数量级）：</p>
-  <ul class="tight">
-    <li>原挡板推薄层水（指向上坡）：约 <b>1 000 000 kgf</b>（1000 吨力）；</li>
-    <li>新挡板推薄层水（指向下坡）：约 <b>999 999 kgf</b>（1000 吨力 − 1 kgf·sinθ 量级）；</li>
-    <li>两个巨大反向作用力的<b>差值</b>：约 <b>1 kgf</b>——这才是薄层水自己沿斜面的重力分量。</li>
-  </ul>
-  <div class="quote reveal">
-    不是 1 kg 水产生了一个没有来源的 1000 吨净力，而是 1 kg 水被<b>夹在两个近乎相等、方向相反的巨大压力之间</b>。它受到的净力仍然很小。
-  </div>
+  <h2><span class="num" aria-hidden="true">2</span>只有 1 kg 水，巨大的力从哪里来？</h2>
+  <p>把两板推到只差 1 mm，薄层水约 1 kg。原挡板仍给它约 1 000 000 kgf 的力；新挡板从反方向给它约 999 999 kgf。两者的差，才是这层水沿斜面的重力分量：</p>
+  <div class="formula"><i>F</i><sub>原</sub> − <i>F</i><sub>新</sub> = <i>m</i><sub>薄层</sub><i>g</i> sin<i>θ</i></div>
 
   <figure class="reveal">
     <div class="figbox">
-      <svg class="wide" viewBox="0 0 640 330" role="img" aria-label="1 毫米薄层水的受力放大图">
-        <text x="320" y="26" font-size="14" fill="#5b6472" text-anchor="middle">把两板之间放大来看（上坡方向朝右 →）</text>
-        <!-- 板与薄层 -->
-        <rect x="240" y="60" width="20" height="200" fill="#343a40" rx="3"/>
-        <rect x="260" y="60" width="40" height="200" fill="#7cb7e8"/>
-        <rect x="300" y="60" width="20" height="200" fill="#5c636b" rx="3"/>
-        <text x="230" y="80" font-size="14" fill="#343a40" text-anchor="end">原挡板</text>
-        <text x="330" y="80" font-size="14" fill="#5c636b">新挡板</text>
-        <!-- 1mm 标注 -->
-        <line x1="260" y1="48" x2="300" y2="48" stroke="#5b6472" stroke-width="1.5"/>
-        <line x1="260" y1="42" x2="260" y2="54" stroke="#5b6472" stroke-width="1.5"/>
-        <line x1="300" y1="42" x2="300" y2="54" stroke="#5b6472" stroke-width="1.5"/>
-        <text x="280" y="40" font-size="12" fill="#5b6472" text-anchor="middle">≈1 mm，约 1 kg 水</text>
-        <!-- 大箭头 -->
-        <line x1="62" y1="140" x2="232" y2="140" stroke="#e8590c" stroke-width="10" stroke-linecap="round" marker-end="url(#mOld)"/>
-        <text x="145" y="118" font-size="14" fill="#e8590c" text-anchor="middle">F原 ≈ 1 000 000 kgf（推向上坡）</text>
-        <line x1="576" y1="200" x2="328" y2="200" stroke="#6741d9" stroke-width="10" stroke-linecap="round" marker-end="url(#mNew)"/>
-        <text x="452" y="178" font-size="14" fill="#6741d9" text-anchor="middle">F新 ≈ 999 999 kgf（推向下坡）</text>
-        <!-- 小重力分量 -->
-        <line x1="312" y1="292" x2="252" y2="292" stroke="#2b8a3e" stroke-width="4" stroke-linecap="round" marker-end="url(#mGrav)"/>
-        <text x="320" y="316" font-size="13" fill="#2b8a3e" text-anchor="middle">薄层水沿斜面的重力分量 ≈ 1 kgf（指向下坡）</text>
+      <svg class="wide" viewBox="0 0 640 290" role="img" aria-label="薄层水受到两个近乎相等的巨大反向力">
+        <text x="320" y="24" font-size="14" fill="#5b6472" text-anchor="middle">两板之间放大示意（上坡方向朝右 →）</text>
+        <rect x="240" y="54" width="20" height="172" fill="#343a40" rx="3"/>
+        <rect x="260" y="54" width="40" height="172" fill="#7cb7e8"/>
+        <rect x="300" y="54" width="20" height="172" fill="#5c636b" rx="3"/>
+        <text x="230" y="74" font-size="13" fill="#343a40" text-anchor="end">原挡板</text>
+        <text x="330" y="74" font-size="13" fill="#5c636b">新挡板</text>
+        <line x1="62" y1="126" x2="232" y2="126" stroke="#e8590c" stroke-width="10" stroke-linecap="round" marker-end="url(#mOld)"/>
+        <text x="145" y="103" font-size="13" fill="#e8590c" text-anchor="middle">F原 ≈ 1 000 000 kgf</text>
+        <line x1="576" y1="182" x2="328" y2="182" stroke="#6741d9" stroke-width="10" stroke-linecap="round" marker-end="url(#mNew)"/>
+        <text x="452" y="159" font-size="13" fill="#6741d9" text-anchor="middle">F新 ≈ 999 999 kgf</text>
+        <line x1="310" y1="258" x2="252" y2="258" stroke="#2b8a3e" stroke-width="4" marker-end="url(#mGrav)"/>
+        <text x="336" y="278" font-size="12" fill="#2b8a3e" text-anchor="middle">差值 ≈ 1 kgf</text>
       </svg>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>F原（原挡板推薄层水）</span>
-        <span class="chip"><span class="sw" style="background:#6741d9"></span>F新（新挡板推薄层水）</span>
-        <span class="chip"><span class="sw" style="background:#2b8a3e"></span>薄层水重力的沿斜面分量</span>
-      </div>
-      <figcaption>图 3：1 mm 薄层水的受力。两个巨大箭头几乎一样长、方向相反，差出来的一点点，恰好就是那 1 kgf 量级的重力分量。</figcaption>
+      <figcaption>不是 1 kg 水凭空产生了巨大净力；它被两个几乎相等、方向相反的大力夹住，净力仍然很小。</figcaption>
     </div>
   </figure>
 
-  <div class="key reveal" style="text-align:center;font-size:1.1rem">
-    1 000 000 kgf − 999 999 kgf = 1 kgf&nbsp;&nbsp;——&nbsp;&nbsp;<b>大力 − 大力 = 小重力</b>
-  </div>
+  <div class="key reveal" style="text-align:center;font-size:1.1rem">1 000 000 − 999 999 = 1&nbsp;&nbsp;——&nbsp;&nbsp;<b>大力之差，仍可以是小力。</b></div>
 </section>
 
-<!-- ========== 交互演示 ========== -->
-<section class="demo">
-  <h2><span class="num" aria-hidden="true">☆</span>亲手试一试：拖动挡板，切换材料</h2>
+<section class="demo" id="lab">
+  <h2><span class="num" aria-hidden="true">☆</span>拖动挡板，换一种材料试试</h2>
   <div class="card reveal">
-    <p style="margin-top:0"><b>概念示例数字：</b>F原 固定为 1000 吨力（1 000 000 kgf）；d = 1 mm 时薄层水质量取 1 kg，其沿斜面重力分量记作 1 kgf（sinθ 因子并入示意数字，只看数量级）。kgf 是力的单位「千克力」，kg 是质量单位。</p>
+    <fieldset>
+      <legend>选择薄层材料</legend>
+      <div class="mbtns">
+        <button class="mbtn active" data-mat="water" type="button" aria-pressed="true">水</button>
+        <button class="mbtn" data-mat="solid" type="button" aria-pressed="false">理想刚性固体</button>
+        <button class="mbtn" data-mat="asphalt" type="button" aria-pressed="false">沥青</button>
+      </div>
+    </fieldset>
 
-    <div class="mbtns">
-      <button class="mbtn active" data-mat="water" type="button" aria-pressed="true">水</button>
-      <button class="mbtn" data-mat="solid" type="button" aria-pressed="false">理想刚性固体</button>
-      <button class="mbtn" data-mat="asphalt" type="button" aria-pressed="false">沥青</button>
-    </div>
-
-    <label for="dSlider"><b>两板距离 d：</b><span id="dVal">1 mm</span></label>
-    <input type="range" id="dSlider" min="0" max="3" step="0.01" value="0">
-    <div class="barnote" style="display:flex;justify-content:space-between"><span>1 mm</span><span>1000 mm（1 米）</span></div>
+    <label for="dSlider"><b>两板距离 d：</b><output id="dVal" for="dSlider">1 mm</output></label>
+    <input type="range" id="dSlider" min="0" max="3" step="0.01" value="0" aria-describedby="distanceHint">
+    <div class="barnote" id="distanceHint" style="display:flex;justify-content:space-between"><span>1 mm</span><span>1000 mm（1 米）</span></div>
 
     <div class="readouts">
       <div class="ro"><div class="lbl">薄层质量 m</div><div class="val" id="mVal">1 kg</div></div>
-      <div class="ro old"><div class="lbl">F原（原挡板 ↔ 薄层）</div><div class="val" id="fOldVal"></div></div>
-      <div class="ro new"><div class="lbl">F新（新挡板 ↔ 薄层）</div><div class="val" id="fNewVal"></div></div>
-      <div class="ro diff"><div class="lbl">差值 = 沿斜面重力分量</div><div class="val" id="diffVal"></div></div>
+      <div class="ro old"><div class="lbl">F原</div><div class="val" id="fOldVal"></div></div>
+      <div class="ro new"><div class="lbl">F新</div><div class="val" id="fNewVal"></div></div>
+      <div class="ro diff"><div class="lbl">两力之差</div><div class="val" id="diffVal"></div></div>
     </div>
+
+    <div class="demo-insight" aria-live="polite"><span>当前观察</span><b id="demoInsight">距离变了，水对原挡板的作用力仍不变。</b></div>
 
     <div class="figbox" style="padding:8px">
       <svg class="wide" viewBox="0 0 640 320" role="img" aria-label="交互受力示意图">
@@ -576,86 +407,30 @@ footer a{color:var(--chalk-muted)}
       </svg>
     </div>
 
-    <div class="bars" id="barsWrap">
+    <div class="bars">
       <div class="barrow"><span class="tag old">F原</span><div class="btrack"><div class="bfill old" id="barOld" style="width:100%"></div></div></div>
       <div class="barrow"><span class="tag new">F新</span><div class="btrack"><div class="bfill new" id="barNew" style="width:99.9%"></div></div></div>
       <p class="barnote" id="barNote"></p>
     </div>
-
     <div class="matnote" id="matNote"></div>
   </div>
 </section>
 
-<div class="layer-break reveal"><span>已经理解了？下面继续追问几个更麻烦的问题。</span></div>
+<div class="layer-break reveal"><span>到这里已经讲完核心。下面是可选的深入解释。</span></div>
 
-<!-- ========== 4 换成刚性固体 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">6</span>换成 1 kg 的理想刚性固体，会怎样？</h2>
-  <p>把那 1 mm 薄层水，换成一块<b>体积相同、密度相同</b>的理想固体：</p>
-  <ul class="tight">
-    <li>理想刚性，表面光滑；</li>
-    <li>与容器形状完全契合，与两块挡板<b>恰好接触</b>；</li>
-    <li>没有任何夹紧力、预紧力或过盈配合。</li>
-  </ul>
-  <p>固体受重力后，只倾向于<b>沿斜面往下滑</b>。所以它压住下坡方向的原挡板；但它<b>不会主动去挤上坡方向的新挡板</b>——即使贴着，接触力也可以为零：</p>
-  <div class="formula"><i>F</i><sub>新→固体</sub> = 0&nbsp;&nbsp;&nbsp;&nbsp;<i>F</i><sub>原</sub> = <i>m</i><sub>固体</sub> <i>g</i> sin<i>θ</i></div>
-  <p>如果这层固体质量只有 1 kg，原挡板受到的合力就只有约 <b>1 kgf·sinθ</b>——而不是液体情况下的 1000 吨力。同样的质量，同样的位置，差了整整六个数量级。</p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <div class="panels">
-        <div>
-          <div class="panel-title" style="color:var(--water)">液体薄层</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="液体薄层：两侧都有巨大反向压力">
-            <rect x="110" y="50" width="14" height="150" fill="#343a40" rx="2"/>
-            <rect x="124" y="50" width="42" height="150" fill="#7cb7e8"/>
-            <rect x="166" y="50" width="14" height="150" fill="#5c636b" rx="2"/>
-            <text x="117" y="42" font-size="12" fill="#343a40" text-anchor="middle">原挡板</text>
-            <text x="173" y="42" font-size="12" fill="#5c636b" text-anchor="middle">新挡板</text>
-            <line x1="18" y1="110" x2="102" y2="110" stroke="#e8590c" stroke-width="7" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="55" y="95" font-size="12" fill="#e8590c" text-anchor="middle">≈1000 吨力</text>
-            <line x1="302" y1="150" x2="188" y2="150" stroke="#6741d9" stroke-width="7" stroke-linecap="round" marker-end="url(#mNew)"/>
-            <text x="248" y="135" font-size="12" fill="#6741d9" text-anchor="middle">≈1000 吨力</text>
-            <line x1="168" y1="230" x2="122" y2="230" stroke="#2b8a3e" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mGrav)"/>
-            <text x="145" y="250" font-size="12" fill="#2b8a3e" text-anchor="middle">重力分量（很小）</text>
-          </svg>
-        </div>
-        <div>
-          <div class="panel-title" style="color:#4b535c">理想刚性固体薄层（无预紧）</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="刚性固体薄层：新挡板接触力为零">
-            <rect x="110" y="50" width="14" height="150" fill="#343a40" rx="2"/>
-            <rect x="124" y="50" width="42" height="150" fill="#c3cad2"/>
-            <rect x="166" y="50" width="14" height="150" fill="#5c636b" rx="2"/>
-            <text x="117" y="42" font-size="12" fill="#343a40" text-anchor="middle">原挡板</text>
-            <text x="173" y="42" font-size="12" fill="#5c636b" text-anchor="middle">新挡板</text>
-            <line x1="66" y1="110" x2="102" y2="110" stroke="#e8590c" stroke-width="4" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="55" y="95" font-size="12" fill="#e8590c" text-anchor="middle">仅 ≈1 kgf·sinθ</text>
-            <text x="245" y="115" font-size="12" fill="#6741d9" text-anchor="middle">F新 = 0</text>
-            <text x="245" y="132" font-size="11" fill="#5b6472" text-anchor="middle">（恰好接触，可不受力）</text>
-            <line x1="168" y1="230" x2="122" y2="230" stroke="#2b8a3e" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mGrav)"/>
-            <text x="145" y="250" font-size="12" fill="#2b8a3e" text-anchor="middle">重力分量（很小）</text>
-          </svg>
-        </div>
-      </div>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#7cb7e8"></span>水</span>
-        <span class="chip"><span class="sw" style="background:#c3cad2"></span>理想刚性固体</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板作用力</span>
-        <span class="chip"><span class="sw" style="background:#6741d9"></span>新挡板作用力</span>
-      </div>
-      <figcaption>图 4：并排对比（上坡方向朝右）。液体：两块挡板上都有由液深决定的巨大反向压力。固体：上游新挡板作用力为零，原挡板只承担固体沿斜面的重力分量。</figcaption>
+<section id="solid">
+  <h2><span class="num" aria-hidden="true">3</span>为什么换成固体，答案就变了？</h2>
+  <div class="panels">
+    <div class="card reveal">
+      <h3 style="color:var(--water);margin-top:0">静止液体</h3>
+      <p>不能维持静态剪切应力，只能用各方向相同的压强传力。挡板受力由液深决定，与薄层厚度无关。</p>
     </div>
-  </figure>
-
-  <div class="warn reveal">
-    <b>两个容易说错的地方：</b>①不能说「固体完全没有内部应力」——正确的说法是：<b>固体能够维持静态剪切应力和固定形状</b>，所以它传递载荷的方式与静止液体不同。②对刚性固体与挡板之间的接触，局部压力分布并不必然均匀，我们只讨论可以确定的<b>合力</b>和<b>平均压强</b>。
+    <div class="card reveal">
+      <h3 style="color:#4b535c;margin-top:0">理想固体（无预紧）</h3>
+      <p>能维持静态剪切并保持形状，只把自身沿斜面的重力分量交给原挡板：</p>
+      <div class="formula"><i>F</i><sub>原</sub> = <i>mg</i> sin<i>θ</i></div>
+    </div>
   </div>
-</section>
-
-<!-- ========== 5 剪切应力 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">7</span>差别的根源：剪切应力</h2>
-  <p>为什么同样 1 kg，水和固体给挡板的力差这么多？答案是一个词：<b>剪切应力</b>。用一叠扑克牌来看它是什么：</p>
 
   <figure class="reveal">
     <div class="figbox">
@@ -689,158 +464,53 @@ footer a{color:var(--chalk-muted)}
           </svg>
         </div>
       </div>
-      <figcaption>图 5：一叠扑克牌。垂直往下压是正应力；横着推最上面那张、让各层产生错位趋势，就是剪切应力。</figcaption>
+      <figcaption>一叠扑克牌。垂直往下压是正应力；横着推最上面那张、让各层产生错位趋势，就是剪切应力。固体能长期扛住这种错位趋势，静止的水不能——这就是两者传力方式不同的根源。</figcaption>
     </div>
   </figure>
 
-  <div class="formula"><i>τ</i> = <i>F</i><sub>∥</sub> / <i>A</i><span class="fnote">沿表面方向的力 ÷ 受力面积</span></div>
-  <ul class="tight">
-    <li><b>固体</b>：静止时可以长期维持剪切应力——就像一副粘住的牌，自己保持形状，把沿斜面的重力「攥」在自己内部，只把 mg sinθ 交给下坡挡板。</li>
-    <li><b>普通静止液体</b>：不能维持剪切应力。对牛顿流体，<i>τ</i> = <i>μ</i>(d<i>u</i>/d<i>y</i>)；完全静止时流速梯度 d<i>u</i>/d<i>y</i> = 0，所以 <i>τ</i> = 0。</li>
-    <li>因为水扛不住任何静态剪切，它内部只能靠<b>各个方向都一样的压强</b>来传力，而压强由竖直深度决定——于是挡板上的力「只看液面多深，不看水层多厚」。</li>
-    <li><b>黏度高只表示流得慢</b>，不代表最终可以永久维持剪切应力——蜂蜜静止久了，剪切应力同样归零。</li>
-  </ul>
+  <details class="card compact-details">
+    <summary>那沥青算液体还是固体？</summary>
+    <p>看温度、观察时间、屈服应力和灌注历史。热沥青等得够久更像液体；冷沥青在短时间内更像固体；熔融灌入后冷却，还会保留残余应力，因此没有一个只由质量决定的答案。</p>
+  </details>
+  <details class="card compact-details">
+    <summary>两板距离趋近于零呢？</summary>
+    <p>在连续流体模型中，只要仍有水且液深不变，<i>F</i><sub>原</sub> 就不变；到 d = 0 时原挡板不再接触水，力才变为零。若薄到纳米尺度，表面张力、润湿和分子效应会让 <i>p</i> = <i>ρgh</i> 失效。</p>
+  </details>
 </section>
 
-<!-- ========== 6 沥青 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">8</span>沥青算液体还是固体？——看条件</h2>
-  <p>液体与固体之间，并不是所有情况下都有绝对清晰的界限。沥青是典型的<b>黏弹性 / 黏塑性材料</b>，它的表现取决于：温度、观察时间、受力大小、屈服应力，以及灌入和冷却的历史。两个简单的判断工具：</p>
-  <div class="formula"><i>De</i> = 松弛时间 / 观察时间</div>
-  <ul class="tight">
-    <li>De ≫ 1：在你观察的这段时间里，它来不及流动——<b>像固体</b>；</li>
-    <li>De ≪ 1：它有足够时间松弛和流动——<b>像液体</b>；</li>
-    <li>另外看<b>屈服应力</b>：重力产生的剪切应力低于屈服应力时，不发生明显流动；超过了，才开始流。</li>
-  </ul>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <div class="spectrum">
-        <div class="specbar" role="img" aria-label="沥青行为连续谱：从固体行为到液体行为"></div>
-        <div class="speclabels">
-          <span>冷沥青 / 短时间</span>
-          <span>固体行为</span>
-          <span>黏弹性过渡</span>
-          <span>液体行为</span>
-          <span>热沥青 / 长时间</span>
-        </div>
-      </div>
-      <div class="cases">
-        <div class="case"><b>① 高温熔融沥青，等足够久</b>剪切应力有时间松弛干净，压强分布接近液体的静水压强——挡板受力趋向 1000 吨力那一端。</div>
-        <div class="case"><b>② 低温硬沥青，无预紧放入</b>观察期内像固体，挡板受力接近固体的 mg sinθ——趋向 1 kgf·sinθ 那一端。</div>
-        <div class="case"><b>③ 熔融灌入后冷却凝固</b>挡板受力取决于凝固、收缩和残余应力的整个历史，<b>不能只根据质量计算</b>。</div>
-      </div>
-      <figcaption>图 6：沥青行为连续谱。同一种材料，条件不同，答案可以落在「固体端」到「液体端」之间的任何位置。</figcaption>
-    </div>
-  </figure>
-</section>
-
-<!-- ========== 7 极限 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">9</span>把距离一路缩到零，会发生什么？</h2>
-  <p>在连续流体理论里，让两板距离 d 越来越小（但仍大于零）：薄层水质量 m → 0；可只要液面高度和原挡板浸水面积不变，F原 就保持不变，同时 F新 越来越接近 F原：</p>
-  <div class="formula">
-    d → 0⁺ 时：<i>m</i><sub>薄层水</sub> → 0，&nbsp;<i>F</i><sub>新</sub> → <i>F</i><sub>原</sub>，&nbsp;而&nbsp;
-    lim<sub>d→0⁺</sub> <i>F</i><sub>原</sub> = <i>F</i><sub>0</sub>（不变）
+<section id="pitfalls">
+  <h2><span class="num" aria-hidden="true">✗</span>三个最容易混淆的地方</h2>
+  <div class="mis reveal">
+    <p><span class="no">不是：</span>1 kg 水“产生”了 1000 吨净力。</p>
+    <p><span class="yes">而是：</span>它夹在两个近乎相等的巨大反向力之间，净力只有自身重力分量。</p>
   </div>
+  <div class="mis reveal">
+    <p><span class="no">不是：</span>上游压力穿过新挡板传到原挡板。</p>
+    <p><span class="yes">而是：</span>原挡板只受到紧贴它的水的压强；压强由当地液深决定。</p>
+  </div>
+  <div class="mis reveal">
+    <p><span class="no">不是：</span>“1000 吨”是质量。</p>
+    <p><span class="yes">而是：</span>这里说的是 1000 吨力；kg 是质量单位，kgf 是力单位。</p>
+  </div>
+</section>
+
+<section id="summary">
+  <h2><span class="num" aria-hidden="true">∑</span>最后只记住这两行</h2>
   <div class="key reveal">
-    但在 d = 0 的那一瞬间，两板之间已经<b>没有水</b>了：原挡板不再接触水，作用力直接变成零。F原 在 d = 0 处发生跳变——这是理想模型中一个特殊的<b>不连续极限</b>，不是矛盾。
-  </div>
-  <p>而且真实世界到不了这个极限。当间距缩到<b>纳米、乃至单个水分子</b>的尺度，连续流体模型本身就失效了，必须考虑：</p>
-  <ul class="tight">
-    <li>分子尺寸（水分子直径约 0.3 纳米，「一层水」不再是连续介质）；</li>
-    <li>表面张力与润湿性；</li>
-    <li>毛细作用；</li>
-    <li>分离压力（两个表面靠得极近时出现的额外作用）；</li>
-    <li>压力涨落（分子热运动使「压强」不再是平滑的量）。</li>
-  </ul>
-  <div class="warn reveal">所以<b>不能</b>声称「一层水分子仍严格服从 p = ρgh」。p = ρgh 是连续介质的公式，只在远大于分子尺度时成立。</div>
-</section>
-
-<!-- ========== 常见误解 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">✗</span>常见误解排雷</h2>
-
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>「1000 吨」说的是中间那点水的质量。</p>
-    <p><span class="yes">✅ 正确：</span>1000 吨力是<b>力</b>（1 000 000 kgf，kgf = 千克力）。中间薄层水的<b>质量</b>只有约 1 kg。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>原挡板是在「单独支撑那 1 kg 水」，所以 1000 吨净力凭空出现，违反常识。</p>
-    <p><span class="yes">✅ 正确：</span>挡板上的压力来自紧贴它的水的压强，而压强由<b>竖直液深</b>决定（p = ρgh）。薄层水本身被两个近乎相等、方向相反的大力夹住，受到的<b>净力</b>只有约 1 kgf。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>上游水的压力「穿透」了刚性新挡板，压到了原挡板上。</p>
-    <p><span class="yes">✅ 正确：</span>压强不穿透刚性挡板。每块挡板的两个表面<b>分别</b>与各自相邻的液体发生接触作用；原挡板的力全部来自紧贴它的薄层水。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>新挡板单侧受约 1000 吨力，所以新挡板会被 1000 吨力推走。</p>
-    <p><span class="yes">✅ 正确：</span>别把<b>单侧压力</b>和<b>净合力</b>混为一谈。两侧液面等高、密度相同时，新挡板两侧压力大小相等、方向相反，<b>净合力为零</b>。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>黏度足够高的液体，最终就和固体一样。</p>
-    <p><span class="yes">✅ 正确：</span>黏度高只表示流得<b>慢</b>。牛顿流体静止时 du/dy = 0，剪切应力必为零，不能永久维持剪切。能不能「像固体」，要看屈服应力和黏弹性（见沥青一节），不是看黏度大小。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>把水层缩到一个分子那么薄，p = ρgh 照样精确成立。</p>
-    <p><span class="yes">✅ 正确：</span>p = ρgh 是连续介质公式。到纳米 / 单分子尺度，要考虑分子尺寸、表面张力、润湿性、毛细作用、分离压力和压力涨落，连续流体模型失效。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">❌ 误解：</span>刚性固体贴着挡板，接触压力一定均匀分布。</p>
-    <p><span class="yes">✅ 正确：</span>理想刚性接触的局部压力分布并不确定。我们只讨论能确定的<b>合力</b>与<b>平均压强</b>。</p>
-  </div>
-</section>
-
-<!-- ========== 总结对比表 ========== -->
-<section>
-  <h2><span class="num" aria-hidden="true">∑</span>最终总结：一张表看懂</h2>
-  <div class="tblwrap reveal">
-    <table>
-      <thead>
-        <tr>
-          <th>薄层材料</th>
-          <th>静止时能否维持剪切应力</th>
-          <th>原挡板受到的合力</th>
-          <th>新挡板与薄层的作用力</th>
-          <th>由什么决定</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="mat-water">水（静止液体）</td>
-          <td>不能（du/dy = 0 ⇒ τ = 0）</td>
-          <td>≈1000 吨力，由 ∫ρgh dA 决定</td>
-          <td>≈1000 吨力，反向；差值 = 薄层重力分量</td>
-          <td>液面竖直深度、密度、浸水面积——<b>与水层厚度无关</b></td>
-        </tr>
-        <tr>
-          <td class="mat-solid">理想刚性固体（无预紧）</td>
-          <td>能</td>
-          <td>仅 m g sinθ（示例约 1 kgf·sinθ）</td>
-          <td>可以为 0</td>
-          <td>固体总质量与斜面倾角</td>
-        </tr>
-        <tr>
-          <td class="mat-asphalt">沥青（黏弹 / 黏塑）</td>
-          <td>视条件（De 数、屈服应力）</td>
-          <td>介于两者之间，0 ～ 接近液体值</td>
-          <td>同样视条件</td>
-          <td>温度、观察时间、受力大小、屈服应力、灌注冷却历史</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="key reveal">
-    一句话收尾：挡板受多大力，不是看它旁边「有多少千克东西」，而是看那东西<b>用什么方式传力</b>。静止的水只会用「随深度增大的压强」说话，于是 1 kg 的薄水层，也能让挡板顶着 1000 吨力——同时它自己受到的净力，仍然小得可怜。
+    <p><b>挡板上的力：</b>看相邻材料怎样传力，不是只看旁边有多少质量。</p>
+    <p><b>静止的水：</b>压强只看竖直深度。因此薄层可以质量很小、两侧压力很大，而净力仍然很小。</p>
   </div>
 </section>
 
 </main>
 
+<button class="backtop" id="backTop" type="button" aria-label="返回文章顶部">↑</button>
+
 <footer>
   <a href="./">← 返回小木块首页</a><br>
   小木块（Littlewood）· 用中学知识，把反直觉的科学问题画明白<br>
-  文中数字均为「概念示例」，只为看清数量级；理想模型的假设见第 2 节。
+  文中数字均为「概念示例」，只为看清数量级；理想模型的假设见第一节。<br>
+  <a href="https://github.com/shdxiang/littlewood.io">源码（GitHub，MIT）</a>
 </footer>
 
 <script>
@@ -852,15 +522,21 @@ footer a{color:var(--chalk-muted)}
   var fmt = function(n){ return Math.round(n).toLocaleString('zh-CN'); };
 
   var notes = {
-    water: '水：静止液体不能维持剪切应力，内部只能用「由竖直深度决定的压强」传力。液面没变，所以 F原 纹丝不动，始终 1000 吨力；F新 只比它小一个「薄层重力分量」。',
-    solid: '理想刚性固体：自己维持形状，把重力「攥」在内部，只把沿斜面的分量 m g sinθ 交给下坡的原挡板。没有预紧时，上坡的新挡板可以完全不受力。',
-    asphalt: '沥青：黏弹 / 黏塑材料，结果取决于温度、观察时间（De 数）、屈服应力和灌注冷却历史，F原 可落在 0 到 1000 吨力之间的任何位置。但受力平衡永远成立：F原 − F新 = 薄层沿斜面重力分量。'
+    water: '水：液深不变，所以 F原 恒定；F新 只比它小一个薄层重力分量。',
+    solid: '理想固体：没有预紧时，F原 只等于自身重力分量，F新 可以为零。',
+    asphalt: '沥青：结果取决于温度、时间和受力历史，但两力之差仍等于重力分量。'
+  };
+  var insights = {
+    water: '距离变了，水对原挡板的作用力仍不变；改变的只是两板之间水的质量。',
+    solid: '同样厚度换成固体，原挡板只承担薄层自身的沿斜面重力分量。',
+    asphalt: '沥青没有唯一答案：温度、时间和受力历史共同决定它更像液体还是固体。'
   };
 
   document.querySelectorAll('.mbtn').forEach(function(b){
     b.addEventListener('click', function(){
       mat = b.dataset.mat;
       document.querySelectorAll('.mbtn').forEach(function(x){ x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', x === b); });
+      $('demoInsight').textContent = insights[mat];
       render();
     });
   });
@@ -872,6 +548,7 @@ footer a{color:var(--chalk-muted)}
     var w = d;                                   // 沿斜面重力分量 kgf（概念示例：1 mm ↔ 1 kgf）
 
     $('dVal').textContent = (d >= 1000) ? '1000 mm（1 米）' : d + ' mm';
+    slider.setAttribute('aria-valuetext', (d >= 1000) ? '1000 毫米，1 米' : d + ' 毫米');
     $('mVal').textContent = fmt(d) + ' kg';
 
     var fOldTxt, fNewTxt, diffTxt;
@@ -938,15 +615,15 @@ footer a{color:var(--chalk-muted)}
     if (mat === 'water'){
       barOld.style.width = '100%';
       barNew.style.width = ((F0 - w) / F0 * 100) + '%';
-      note.textContent = '两条几乎一样长——这正是重点：F新 与 F原 的差值只有 ' + fmt(w) + ' kgf，肉眼根本看不出来。';
+      note.textContent = '两条几乎一样长；差值只有 ' + fmt(w) + ' kgf。';
     } else if (mat === 'solid'){
       barOld.style.width = Math.max(w / F0 * 100, 0.4) + '%';
       barNew.style.width = '0%';
-      note.textContent = 'F原 缩到几乎看不见（约 ' + fmt(w) + ' kgf），F新 = 0。同样的质量，传力方式不同，差六个数量级。';
+      note.textContent = 'F原 只有 ' + fmt(w) + ' kgf，F新 = 0。';
     } else {
       barOld.style.width = '100%'; barOld.style.opacity = '0.3';
       barNew.style.width = '100%'; barNew.style.opacity = '0.3';
-      note.textContent = '沥青：条形只是示意「不确定的范围」——实际值取决于温度、时间与历史，可落在 0 到 1000 吨力之间。';
+      note.textContent = '虚线表示不确定范围；实际值取决于温度、时间与历史。';
     }
     if (mat !== 'asphalt'){ barOld.style.opacity = '1'; barNew.style.opacity = '1'; }
 
@@ -965,10 +642,52 @@ footer a{color:var(--chalk-muted)}
     }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
     targets.forEach(function(el){ io.observe(el); });
   }
+
+  // 阅读进度、快速导航与返回顶部
+  var progress = $('readingProgress');
+  var backTop = $('backTop');
+  var ticking = false;
+  function updateScrollUI(){
+    var doc = document.documentElement;
+    var max = Math.max(1, doc.scrollHeight - window.innerHeight);
+    var y = window.scrollY || doc.scrollTop;
+    progress.style.transform = 'scaleX(' + Math.min(1, y / max) + ')';
+    backTop.classList.toggle('show', y > 700);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ window.requestAnimationFrame(updateScrollUI); ticking = true; }
+  }, {passive:true});
+  window.addEventListener('resize', updateScrollUI, {passive:true});
+  backTop.addEventListener('click', function(){
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top:0, behavior:reduceMotion ? 'auto' : 'smooth'});
+  });
+
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.quicknav a'));
+  var navTargets = navLinks.map(function(link){ return document.querySelector(link.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window){
+    var navIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          navLinks.forEach(function(link){
+            var active = link.getAttribute('href') === '#' + entry.target.id;
+            if (active) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          });
+        }
+      });
+    }, {rootMargin:'-20% 0px -65% 0px'});
+    navTargets.forEach(function(target){ navIo.observe(target); });
+  }
+  updateScrollUI();
   render();
 })();
 </script>
 
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？","description":"两块挡板之间只夹着约 1 千克水，原挡板却仍顶着约 1000 吨力。用受力图和 p = ρgh 看懂静水压力悖论。","image":"https://littlewood.io/og-hydrostatic-paradox.png","datePublished":"2026-08-31","dateModified":"2026-09-04","mainEntityOfPage":"https://littlewood.io/hydrostatic-paradox","author":{"@type":"Organization","name":"小木块","url":"https://littlewood.io/"},"publisher":{"@type":"Organization","name":"小木块","url":"https://littlewood.io/","logo":{"@type":"ImageObject","url":"https://littlewood.io/icon-512.png?v=4"}},"articleSection":"流体静力学","inLanguage":"zh-CN"}
+</script>
 
 
 </body>

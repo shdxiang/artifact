@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 小木块/Littlewood (https://littlewood.io) — a static Chinese science site: counterintuitive questions explained with middle-school knowledge. Currently one article: "为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？" (hydrostatic pressure paradox).
 
 - Every page is one self-contained HTML file in `public/` with all CSS, JS, and SVG inline. No build step, no dependencies, no external fonts/CDN — keep it that way (hard requirement from the original brief).
-- `public/index.html` — landing page (mascot logo in logo.svg/favicon.svg), cards linking to the question pages. A new article = a new `public/<english-slug>.html` + a card here.
+- `public/index.html` — landing page: site header, cover, 最新图解 cards, 我们怎么画 principles. A new article = a new `public/<english-slug>.html` + a card here.
 - `public/hydrostatic-paradox.html` — the article.
 - `public/404.html`, `robots.txt`, `sitemap.xml`, `_headers`, `og-*.png` (1200×630 social previews) — add a sitemap entry + OG image for each new article.
 - `wrangler.toml` — Cloudflare Worker static-assets config serving `public/`, custom domain littlewood.io.
